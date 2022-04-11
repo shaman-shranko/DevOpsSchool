@@ -1,5 +1,5 @@
 import React from 'react';
-import StudyScreen from '../screens/StudyScreen';
+import StudyNavigation from './study.navigation';
 import CourseScreen from '../screens/CourseScreen';
 import CabinetScreen from '../screens/CabinetScreen';
 
@@ -35,7 +35,7 @@ export default CommonNavigation = () => (
       tabBarActiveTintColor: '#6786DA',
       tabBarInactiveTintColor: 'gray',
     })}>
-    <Tab.Screen name="Study" component={StudyScreen} />
+    <Tab.Screen name="Study" component={StudyNavigation} />
     <Tab.Screen name="Course" component={CourseScreen} />
     <Tab.Screen name="Cabinet" component={CabinetScreen} />
   </Tab.Navigator>

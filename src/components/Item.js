@@ -5,7 +5,7 @@ import * as Progress from 'react-native-progress';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-export default Item = ({ data, isCourse = false }) => {
+export default Item = ({ navigation, data, isCourse = false }) => {
   return (
     <View style={{ backgroundColor: "white", padding: 20, borderRadius: 20, height: "100%" }}>
 
@@ -85,6 +85,7 @@ export default Item = ({ data, isCourse = false }) => {
           {/* Button */}
           <View style={{ paddingVertical: 10 }}>
             <Button
+              onPress={() => { navigation.navigate('Topic') }}
               title="Learn More"
               color="#6786DA"
             />
