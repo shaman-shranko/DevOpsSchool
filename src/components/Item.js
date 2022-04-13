@@ -85,7 +85,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
           {/* Button */}
           <View style={{ paddingVertical: 10 }}>
             <Button
-              onPress={() => { navigation.navigate('Topic') }}
+              onPress={() => { navigation('Plan', data.heading) }}
               title="Learn More"
               color="#6786DA"
             />

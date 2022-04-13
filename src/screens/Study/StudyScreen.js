@@ -18,6 +18,10 @@ export default function StudyScreen({ navigation }) {
     }
   }, [request])
 
+  const goToScreen = (route, name) => {
+    navigation.navigate(route, { name: name })
+  }
+
   useEffect(() => {
     dataLoading();
   }, [dataLoading])
@@ -25,12 +29,11 @@ export default function StudyScreen({ navigation }) {
   if (loading) {
     return <Loader />
   }
-
   return (
     <View style={commonStyle.Container}>
       <View style={commonStyle.CardContainer}>
         {study && study.map((element, index) => {
-          return (<Item key={`study_${index}`} navigation={navigation} data={element} />)
+          return (<Item key={`study_${index}`} navigation={goToScreen} data={element} />)
         })}
       </View>
     </View>

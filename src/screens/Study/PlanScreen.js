@@ -3,9 +3,9 @@ import { commonStyle } from "../../styles/common.style";
 import { useHttp } from "../../hooks/http.hook";
 import Loader from "../../components/Loader";
 import Topic from "../../components/Topic";
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
-export default function SingleScreen({ navigation }) {
+export default function PlanScreen({ navigation }) {
   const { loading, request } = useHttp();
   const [lessons, setLessons] = useState(null)
 

@@ -3,10 +3,10 @@ import { Image, Text, TouchableOpacity, View } from 'react-native'
 import * as Progress from 'react-native-progress';
 
 
-export default Topic = ({ data, index , navigation}) => {
+export default Topic = ({ data, index, navigation }) => {
   return (
     <TouchableOpacity
-      onPress={() => { navigation.navigate('Lesson') }}
+      onPress={() => { navigation.navigate('Topic', { name: data.name }) }}
       style={{ backgroundColor: "white", marginBottom: 10, borderRadius: 10 }}
     >
       <View style={{ borderRadius: 10 }}>

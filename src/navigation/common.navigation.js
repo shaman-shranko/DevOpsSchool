@@ -35,7 +35,7 @@ export default CommonNavigation = () => (
       tabBarActiveTintColor: '#6786DA',
       tabBarInactiveTintColor: 'gray',
     })}>
-    <Tab.Screen name="Study" component={StudyNavigation} />
+    <Tab.Screen options={{ headerShown: false }} name="Study" component={StudyNavigation} />
     <Tab.Screen name="Course" component={CourseScreen} />
     <Tab.Screen name="Cabinet" component={CabinetScreen} />
   </Tab.Navigator>
