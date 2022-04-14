@@ -5,6 +5,7 @@ import StudyScreen from '../screens/Study/StudyScreen';
 import PlanScreen from '../screens/Study/PlanScreen';
 import TopicScreen from '../screens/Study/TopicScreen';
 import LessonScreen from '../screens/Study/LessonScreen';
+import TestScreen from '../screens/Study/TestScreen';
 
 const StudyStack = createNativeStackNavigator();
 
@@ -41,6 +42,11 @@ export default function StudyStackScreen() {
         name="Lesson"
         component={LessonScreen}
         options={({ route }) => ({ title: (route && route.params && route.params.name) ?? "Lesson" })}
+      />
+      <StudyStack.Screen
+        name="Test"
+        component={TestScreen}
+        options={({ route }) => ({ title: (route && route.params && route.params.name) ?? "Test" })}
       />
     </StudyStack.Navigator>
   );

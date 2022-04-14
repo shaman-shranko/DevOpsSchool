@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import * as Progress from 'react-native-progress';
-
+import { Links } from "../constants";
 
 export default Topic = ({ data, index, navigation }) => {
   return (
@@ -21,7 +21,7 @@ export default Topic = ({ data, index, navigation }) => {
           resizeMode={"contain"}
 
           source={{
-            uri: `http://192.168.0.113:5000/${data.picture}`
+            uri: Links.Public + data.picture
           }}
         />
         <View style={{ position: 'absolute', left: 10, top: 10, width: 30, height: 30, borderRadius: 30, backgroundColor: "#6786DA", justifyContent: "center", alignItems: "center" }}>

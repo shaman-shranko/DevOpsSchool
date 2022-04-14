@@ -4,6 +4,7 @@ import Loader from "../../components/Loader";
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from "react-native-elements";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Links } from "../../constants";
 
 export default function TopicScreen({ navigation }) {
   const { loading, request } = useHttp();
@@ -11,7 +12,7 @@ export default function TopicScreen({ navigation }) {
 
   const dataLoading = useCallback(async () => {
     try {
-      let response = await request('http://192.168.0.113:5000/api/devops/lesson');
+      let response = await request(Links.TopicLink);
       setTopic(response)
     } catch (err) {
       console.log("Lessons screen reports:", err.message);
@@ -26,7 +27,7 @@ export default function TopicScreen({ navigation }) {
     return <Loader />
   }
   const Item = ({ name, description, index, stars }) => (
-    <TouchableOpacity onPress={() => { navigation.navigate('Lesson', { name: name }) }}>
+    <TouchableOpacity onPress={() => { navigation.navigate('Lesson', { name: "Lesson"+(index)+": "+name }) }}>
       <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "lightgrey", paddingVertical: 5 }}>
         {/* Number */}
         <View style={{ flex: 2, alignItems: "center", justifyContent: "center" }}>

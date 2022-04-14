@@ -3,7 +3,7 @@ import React from 'react';
 import { ActivityIndicator, Button, Image, Text, TouchableOpacity, View } from 'react-native'
 import * as Progress from 'react-native-progress';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { Links } from "../constants";
 
 export default Item = ({ navigation, data, isCourse = false }) => {
   return (
@@ -21,7 +21,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
           }}
           resizeMode={"contain"}
           source={{
-            uri: `http://192.168.0.113:5000/${data.picture}`
+            uri: Links.Public + data.picture
           }}
           onLoad={() => (<ActivityIndicator size={40} color={"red"} />)}
         />

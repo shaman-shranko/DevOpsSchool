@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { commonStyle } from "../../styles/common.style";
 import { useHttp } from "../../hooks/http.hook";
 import Loader from "../../components/Loader";
+import Empty from "../../components/Empty";
 import Item from "../../components/Item";
-import { View } from 'react-native'
+import { Alert, View } from 'react-native';
+import { Links } from "../../constants";
 
 export default function StudyScreen({ navigation }) {
   const { loading, request } = useHttp();
@@ -11,10 +13,10 @@ export default function StudyScreen({ navigation }) {
 
   const dataLoading = useCallback(async () => {
     try {
-      let response = await request('http://192.168.0.113:5000/api/devops/study');
+      let response = await request(Links.StudyLink);
       setStudy(response)
     } catch (err) {
-      console.log("Study screen reports:", err.message);
+      Alert.alert(err.message)
     }
   }, [request])
 
@@ -29,6 +31,11 @@ export default function StudyScreen({ navigation }) {
   if (loading) {
     return <Loader />
   }
+
+  if (!study) {
+    return <Empty />
+  }
+
   return (
     <View style={commonStyle.Container}>
       <View style={commonStyle.CardContainer}>

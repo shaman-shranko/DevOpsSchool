@@ -4,6 +4,7 @@ import { useHttp } from "../../hooks/http.hook";
 import Loader from "../../components/Loader";
 import Topic from "../../components/Topic";
 import { ScrollView, View } from 'react-native'
+import { Links } from "../../constants";
 
 export default function PlanScreen({ navigation }) {
   const { loading, request } = useHttp();
@@ -11,7 +12,7 @@ export default function PlanScreen({ navigation }) {
 
   const dataLoading = useCallback(async () => {
     try {
-      let response = await request('http://192.168.0.113:5000/api/devops/lessons');
+      let response = await request(Links.PlanLink);
       setLessons(response)
     } catch (err) {
       console.log("Lessons screen reports:", err.message);
