@@ -7,17 +7,19 @@
  */
 
 import React from 'react';
-import { DataContext } from './context/data.context';
-import CommonNavigation from './navigation/common.navigation';
+import { AuthContext } from './context/auth.context';
 import { NavigationContainer } from '@react-navigation/native';
+import { useAuth } from './hooks/auth.hook';
+import RouterNavigation from './navigation/router.navigation';
 
 export default function App() {
-
+  const { userId, token } = useAuth()
+  const isAuthenticated = !!token
   return (
-    <DataContext.Provider value={null}>
+    <AuthContext.Provider value={{ userId, isAuthenticated }}>
       <NavigationContainer>
-        <CommonNavigation />
+        <RouterNavigation />
       </NavigationContainer>
-    </DataContext.Provider>
+    </AuthContext.Provider>
   );
 };

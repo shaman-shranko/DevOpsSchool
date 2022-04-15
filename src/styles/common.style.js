@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 export const commonStyle = StyleSheet.create({
+  AuthContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: "white",
+    width: "100%",
+    height: "100%"
+  },
   Container: {
     justifyContent: 'flex-start',
     alignItems: 'center',
