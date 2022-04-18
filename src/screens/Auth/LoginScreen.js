@@ -1,15 +1,31 @@
 
-import React, { useState } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { Button, Input } from "react-native-elements";
 import { commonStyle } from "../../styles/common.style";
 import { Text, TouchableOpacity, View } from 'react-native'
+import { useHttp } from "../../hooks/http.hook";
+import { AuthContext } from "../../context/auth.context";
+import { Links } from "../../constants";
 
 export default function LoginScreen({ navigation }) {
 
-  const [form, setForm] = useState({
-    email: null,
-    password: null,
-  })
+  const { loading, errors, request } = useHttp();
+  const auth = useContext(AuthContext)
+
+
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+
+  const loginAsync = useCallback(async () => {
+    try {
+      const form = {email,password}
+      let response = await request(Links.LoginLink, "POST", form)
+      auth.login(response);
+    } catch (error) {
+
+    }
+  }, [request,email,password])
+
   return (
     <View style={commonStyle.AuthContainer}>
 
@@ -26,15 +42,19 @@ export default function LoginScreen({ navigation }) {
         {/* Inputs */}
         <View style={{ padding: 0 }}>
           <Input
-            value={form.email}
-            onChangeText={(value) => { setForm({ ...form, email: value }) }}
+            value={email}
+            onChangeText={(value) => { setEmail(value) }}
             placeholder="Email"
             keyboardType="email-address"
+            disabled={loading}
+            errorMessage={errors && errors.email}
           />
           <Input
-            value={form.password}
-            onChangeText={(value) => { setForm({ ...form, password: value }) }}
+            value={password}
+            onChangeText={(value) => { setPassword(value) }}
             placeholder="Пароль"
+            errorMessage={errors && errors.password}
+            disabled={loading}
             secureTextEntry
           />
           <View style={{ width: "100%", alignItems: "flex-end", paddingHorizontal: 10, marginBottom: 20 }}>
@@ -49,6 +69,8 @@ export default function LoginScreen({ navigation }) {
         <View style={{ marginTop: 10 }}>
           <Button
             buttonStyle={{ marginHorizontal: 10, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: "blue" }}
+            onPress={() => { loginAsync() }}
+            disabled={loading}
             title={"Войти"}
             type='outline'
           />
@@ -59,6 +81,7 @@ export default function LoginScreen({ navigation }) {
         <Button
           buttonStyle={{ marginHorizontal: 10, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: "blue" }}
           title={"Создать аккаунт"}
+          disabled={loading}
           type='outline'
           onPress={() => { navigation.navigate("SignUp") }}
         />

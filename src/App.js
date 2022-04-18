@@ -13,10 +13,10 @@ import { useAuth } from './hooks/auth.hook';
 import RouterNavigation from './navigation/router.navigation';
 
 export default function App() {
-  const { userId, token } = useAuth()
+  const { userId, token, login, logout } = useAuth()
   const isAuthenticated = !!token
   return (
-    <AuthContext.Provider value={{ userId, isAuthenticated }}>
+    <AuthContext.Provider value={{ userId, token, isAuthenticated, login, logout }}>
       <NavigationContainer>
         <RouterNavigation />
       </NavigationContainer>

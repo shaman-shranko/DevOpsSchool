@@ -1,4 +1,6 @@
-const URL = `http://192.168.0.113:5000/`;
+const URL = `http://192.168.0.103:5000/`;
+
+const LoginLink = URL + `api/devops/login`;
 
 const StudyLink = URL + `api/devops/study`;
 const PlanLink = URL + `api/devops/plan`;
@@ -12,4 +14,6 @@ export const Links = {
   TopicLink,
   LessonLink,
   TestLink,
+
+  LoginLink
 }

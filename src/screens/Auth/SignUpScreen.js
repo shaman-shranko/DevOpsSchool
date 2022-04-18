@@ -1,15 +1,28 @@
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button, Input } from "react-native-elements";
 import { commonStyle } from "../../styles/common.style";
-import { Text, TouchableOpacity, View } from 'react-native'
+import { useHttp } from "../../hooks/http.hook";
+import { Text, View } from 'react-native'
+import { Links } from "../../constants";
 
 export default function SignUpScreen({ navigation }) {
 
+  const { loading, request } = useHttp();
   const [form, setForm] = useState({
     email: null,
     password: null,
   })
+
+  const signUpAsync = useCallback(async () => {
+    try {
+      let response = await request(Links.LoginLink, "POST", form)
+      console.log("Response", response);
+    } catch (error) {
+
+    }
+  }, [request])
+
   return (
     <View style={commonStyle.AuthContainer}>
 
@@ -42,7 +55,9 @@ export default function SignUpScreen({ navigation }) {
         <View style={{ marginTop: 10 }}>
           <Button
             buttonStyle={{ marginHorizontal: 10, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: "blue" }}
+            onPress={() => { signUpAsync }}
             title={"Создать аккаунт"}
+            disabled={loading}
             type='outline'
           />
         </View>
@@ -51,8 +66,9 @@ export default function SignUpScreen({ navigation }) {
       <View style={{ flex: 1, width: "100%", justifyContent: "center", paddingHorizontal: 20 }}>
         <Button
           buttonStyle={{ marginHorizontal: 10, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: "blue" }}
-          title={"У меня есть аккаунт"}
           onPress={() => { navigation.navigate("Login") }}
+          title={"У меня есть аккаунт"}
+          disabled={loading}
           type='outline'
         />
       </View>
