@@ -35,7 +35,7 @@ export default function CourseScreen() {
 
   return (
     <View style={commonStyle.Container}>
-      <View style={[commonStyle.CardContainer, { paddingHorizontal: 0 }]}>
+      <View style={[commonStyle.CardContainer, commonStyle.PH0]}>
         <Carousel
           data={course}
           renderItem={_renderItem}

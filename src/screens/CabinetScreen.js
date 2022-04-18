@@ -1,58 +1,51 @@
 import React, { useContext } from "react";
-import { Image, Text, View } from 'react-native'
+import { Button } from 'react-native-elements';
+import { Image, Text, View } from 'react-native';
 import { commonStyle } from "../styles/common.style";
-import { Button } from 'react-native-elements'
 import { AuthContext } from "../context/auth.context";
 
 export default function CabinetScreen({ navigation }) {
   const auth = useContext(AuthContext)
-  // const { ready, logout } = useContext(AuthContext)
-
 
   return (
     <View style={commonStyle.Container}>
-      <View style={{ width: "100%", padding: 20, height: "100%" }}>
-        <View style={{ backgroundColor: "white", padding: 20, borderRadius: 20, height: "100%" }}>
-
+      <View style={commonStyle.CardContainer}>
+        <View style={commonStyle.Card}>
           {/* Image */}
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View style={commonStyle.Centered}>
             <Image
-              style={{
-                width: 80,
-                height: 80,
-                borderRadius: 50,
-                borderWidth: 1,
-                borderColor: 'lightgrey'
-              }}
+              style={commonStyle.Avatar}
               resizeMode={"contain"}
               source={require("../assets/person.png")}
             />
           </View>
-
-          <View style={{ paddingVertical: 20 }}>
-            <Text style={{ fontSize: 24, textAlign: "center" }}>
+          {/* Name and email */}
+          <View style={commonStyle.PV20}>
+            <Text style={commonStyle.TitleText}>
               Dima Hlushchuk
             </Text>
-            <Text style={{ textAlign: "center" }}>
+            <Text style={commonStyle.TextCenter}>
               dmitriy.h@avega-group.com
             </Text>
           </View>
-          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          {/* Start learn and buy buttons */}
+          <View style={commonStyle.CabinetButtons}>
             <Button
-              buttonStyle={{ width: 150 }}
+              buttonStyle={commonStyle.W150}
               title={'Start learning'}
               onPress={() => { navigation.navigate("Study") }}
             />
             <Button
-              buttonStyle={{ width: 150, backgroundColor: "green" }}
+              buttonStyle={[commonStyle.W150, commonStyle.BuyButton]}
               title={'Buy course'}
               onPress={() => { navigation.navigate("Course") }}
             />
           </View>
-          <View style={{ marginVertical: 20, alignItems: "center" }}>
+          {/* Logout button */}
+          <View style={[commonStyle.PV20, commonStyle.Centered]}>
             <Button
               title={'Logout'}
-              buttonStyle={{ width: 150 }}
+              buttonStyle={commonStyle.W150}
               onPress={() => { auth.logout() }}
             />
           </View>

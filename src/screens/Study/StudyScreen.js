@@ -4,8 +4,8 @@ import Carousel from 'react-native-snap-carousel';
 import { useHttp } from "../../hooks/http.hook";
 import Loader from "../../components/Loader";
 import Empty from "../../components/Empty";
-import Item from "../../components/Item";
 import { Alert, View } from 'react-native';
+import Item from "../../components/Item";
 import { Links } from "../../constants";
 
 
@@ -46,7 +46,7 @@ export default function StudyScreen({ navigation }) {
 
   return (
     <View style={commonStyle.Container}>
-      <View style={[commonStyle.CardContainer, { paddingHorizontal: 0 }]}>
+      <View style={[commonStyle.CardContainer, commonStyle.PH0]}>
         <Carousel
           data={study}
           renderItem={_renderItem}

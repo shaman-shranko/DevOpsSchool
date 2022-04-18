@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useHttp } from "../../hooks/http.hook";
-import Loader from "../../components/Loader";
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
-import { Button } from "react-native-elements";
+import React, { useState, useEffect, useCallback } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useHttp } from "../../hooks/http.hook";
+import { Button } from "react-native-elements";
+import Loader from "../../components/Loader";
 import { Links } from "../../constants";
 
 export default function TopicScreen({ navigation }) {
@@ -26,8 +26,9 @@ export default function TopicScreen({ navigation }) {
   if (loading) {
     return <Loader />
   }
+
   const Item = ({ name, description, index, stars }) => (
-    <TouchableOpacity onPress={() => { navigation.navigate('Lesson', { name: "Lesson"+(index)+": "+name }) }}>
+    <TouchableOpacity onPress={() => { navigation.navigate('Lesson', { name: "Lesson" + (index) + ": " + name }) }}>
       <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "lightgrey", paddingVertical: 5 }}>
         {/* Number */}
         <View style={{ flex: 2, alignItems: "center", justifyContent: "center" }}>
@@ -58,9 +59,11 @@ export default function TopicScreen({ navigation }) {
       </View>
     </TouchableOpacity>
   );
+
   const renderItem = ({ item, index }) => (
     <Item index={index + 1} stars={item.stars} name={item.name} description={item.description} />
   );
+
   return (
     <View>
       {/* Progress */}
@@ -98,7 +101,6 @@ export default function TopicScreen({ navigation }) {
             style={{
               width: "100%",
               height: 200,
-              // borderRadius: 35,
               borderWidth: 1,
               borderColor: 'lightgrey'
             }}

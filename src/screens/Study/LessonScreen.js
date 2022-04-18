@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { commonStyle } from "../../styles/common.style";
-import { useHttp } from "../../hooks/http.hook";
-import Loader from "../../components/Loader";
-import { View } from 'react-native'
-import { Button } from 'react-native-elements'
 import VideoPlayer from 'react-native-video-player';
+import { useHttp } from "../../hooks/http.hook";
+import { Button } from 'react-native-elements';
+import Loader from "../../components/Loader";
 import { Links } from "../../constants";
+import { View } from 'react-native';
 
 export default function LessonScreen({ navigation }) {
   const { loading, request } = useHttp();
@@ -27,11 +27,11 @@ export default function LessonScreen({ navigation }) {
   if (loading) {
     return <Loader />
   }
-  
+
   return (
     <View style={commonStyle.Container}>
-      <View style={[commonStyle.CardContainer, { height: "100%" }]}>
-        <View style={{ backgroundColor: "white", padding: 10, borderRadius: 5 }}>
+      <View style={[commonStyle.CardContainer, commonStyle.FullHight]}>
+        <View style={commonStyle.Card}>{/*{ backgroundColor: "white", padding: 10, borderRadius: 5 } */}
           {data && data.video &&
             <VideoPlayer
               video={{ uri: Links.Public + data.video }}
@@ -41,7 +41,7 @@ export default function LessonScreen({ navigation }) {
             />
           }
           {/* Button */}
-          <View style={{ paddingVertical: 10 }}>
+          <View style={commonStyle.PV10}>
             <Button
               title="Complete test"
               onPress={() => { navigation.navigate("Test") }}

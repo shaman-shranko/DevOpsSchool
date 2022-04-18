@@ -32,5 +32,54 @@ export const commonStyle = StyleSheet.create({
   Centered: {
     justifyContent: "center",
     alignItems: "center"
+  },
+  Card: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 20,
+    height: "100%"
+  },
+  Avatar: {
+    width: 80,
+    height: 80,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: 'lightgrey'
+  },
+  TextCenter: {
+    textAlign: 'center',
+  },
+  BuyButton: {
+    backgroundColor: "green"
+  },
+  MB0: {
+    marginBottom: 0,
+  },
+  MT20: {
+    marginTop: 20,
+  },
+  PV10: {
+    paddingVertical: 10
+  },
+  PV20: {
+    paddingVertical: 20
+  },
+  PH0: {
+    paddingHorizontal: 0,
+  },
+  W150: {
+    width: 150
+  },
+  FullHight: {
+    height: "100%"
+  },
+  CabinetButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  TitleText: {
+    fontSize: 24,
+    textAlign: "center"
   }
+
 })

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { commonStyle } from "../../styles/common.style";
 import { useHttp } from "../../hooks/http.hook";
+import { ScrollView, View } from 'react-native'
 import Loader from "../../components/Loader";
 import Topic from "../../components/Topic";
-import { ScrollView, View } from 'react-native'
 import { Links } from "../../constants";
 
 export default function PlanScreen({ navigation }) {
@@ -26,10 +26,11 @@ export default function PlanScreen({ navigation }) {
   if (loading) {
     return <Loader />
   }
+
   return (
     <View style={commonStyle.Container}>
-      <View style={[commonStyle.CardContainer, { height: "100%" }]}>
-        <ScrollView style={{ marginBottom: 0 }}>
+      <View style={[commonStyle.CardContainer, commonStyle.FullHight]}>
+        <ScrollView style={commonStyle.MB0}>
           {lessons && lessons.map((element, index) => (
             <Topic data={element} navigation={navigation} index={index + 1} key={`lesson_${index}`} />
           ))}
