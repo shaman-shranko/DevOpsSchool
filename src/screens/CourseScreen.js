@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { commonStyle } from "../styles/common.style";
+import Carousel from 'react-native-snap-carousel';
 import { useHttp } from "../hooks/http.hook";
 import Loader from "../components/Loader";
 import Item from "../components/Item";
@@ -26,12 +27,21 @@ export default function CourseScreen() {
     return <Loader />
   }
 
+  const _renderItem = ({ item, index }) => {
+    return (
+      <Item key={`course_${index}`} data={item} isCourse />
+    );
+  }
+
   return (
     <View style={commonStyle.Container}>
-      <View style={commonStyle.CardContainer}>
-        {course && course.map((element, index) => {
-          return (<Item key={`course_${index}`} data={element} isCourse />)
-        })}
+      <View style={[commonStyle.CardContainer, { paddingHorizontal: 0 }]}>
+        <Carousel
+          data={course}
+          renderItem={_renderItem}
+          sliderWidth={410}
+          itemWidth={360}
+        />
       </View>
     </View>
   );

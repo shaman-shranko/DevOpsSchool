@@ -38,26 +38,21 @@ export default function StudyScreen({ navigation }) {
     return <Empty />
   }
 
-  const _renderItem = ({item, index}) => {
+  const _renderItem = ({ item, index }) => {
     return (
       <Item key={`study_${index}`} navigation={goToScreen} data={item} />
     );
-}
+  }
 
   return (
     <View style={commonStyle.Container}>
-      <View style={[commonStyle.CardContainer,{paddingHorizontal:0}]}>
-      <Carousel
-              // ref={(c) => { this._carousel = c; }}
-              data={study}
-              renderItem={_renderItem}
-              sliderWidth={410}
-              itemWidth={360}
-            />
-
-        {/* {study && study.map((element, index) => {
-          return (<Item key={`study_${index}`} navigation={goToScreen} data={element} />)
-        })} */}
+      <View style={[commonStyle.CardContainer, { paddingHorizontal: 0 }]}>
+        <Carousel
+          data={study}
+          renderItem={_renderItem}
+          sliderWidth={410}
+          itemWidth={360}
+        />
       </View>
     </View>
   );
