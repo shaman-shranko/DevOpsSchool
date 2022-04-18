@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import AsyncStorage from "@react-native-async-storage/async-storage"
 const storageName = 'userData'
 
 export const useAuth = () => {
@@ -6,30 +7,34 @@ export const useAuth = () => {
   const [ready, setReady] = useState(false)
   const [userId, setUserId] = useState(null)
 
-  const login = useCallback((jwtToken, id) => {
+  const login = useCallback(async (jwtToken, id) => {
     setToken(jwtToken)
     setUserId(id)
 
-    // localStorage.setItem(storageName, JSON.stringify({
-    //   userId:id, token:jwtToken
-    // }))
+    await AsyncStorage.setItem(storageName, JSON.stringify({
+      userId: id, token: jwtToken
+    }))
   }, [])
 
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     setToken(null)
     setUserId(null)
 
-    // localStorage.removeItem(storageName)
+    await AsyncStorage.removeItem(storageName)
   }, [])
 
   useEffect(() => {
-    const data = {}//JSON.parse(localStorage.getItem(storageName))
+    checkAuth()
+  }, [checkAuth])
+
+  const checkAuth = useCallback(async () => {
+    const data = JSON.parse(await AsyncStorage.getItem(storageName))
     if (data && data.token) {
       login(data.token, data.userId)
     }
     setReady(true)
-  },[login])
-
-  return { login, logout, token, userId , ready}
+  }, [login])
+  
+  return { login, logout, token, userId, ready }
 }

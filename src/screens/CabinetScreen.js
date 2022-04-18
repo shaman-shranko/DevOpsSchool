@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Image, Text, View } from 'react-native'
 import { commonStyle } from "../styles/common.style";
 import { Button } from 'react-native-elements'
+import { AuthContext } from "../context/auth.context";
 
 export default function CabinetScreen({ navigation }) {
+  const auth = useContext(AuthContext)
+  // const { ready, logout } = useContext(AuthContext)
+
+
   return (
     <View style={commonStyle.Container}>
       <View style={{ width: "100%", padding: 20, height: "100%" }}>
@@ -42,6 +47,13 @@ export default function CabinetScreen({ navigation }) {
               buttonStyle={{ width: 150, backgroundColor: "green" }}
               title={'Buy course'}
               onPress={() => { navigation.navigate("Course") }}
+            />
+          </View>
+          <View style={{ marginVertical: 20, alignItems: "center" }}>
+            <Button
+              title={'Logout'}
+              buttonStyle={{ width: 150 }}
+              onPress={() => { auth.logout() }}
             />
           </View>
         </View>

@@ -7,16 +7,16 @@
  */
 
 import React from 'react';
-import { AuthContext } from './context/auth.context';
 import { NavigationContainer } from '@react-navigation/native';
-import { useAuth } from './hooks/auth.hook';
 import RouterNavigation from './navigation/router.navigation';
+import { AuthContext } from './context/auth.context';
+import { useAuth } from './hooks/auth.hook';
 
 export default function App() {
-  const { userId, token, login, logout } = useAuth()
+  const { userId, token, login, logout, ready } = useAuth()
   const isAuthenticated = !!token
   return (
-    <AuthContext.Provider value={{ userId, token, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ userId, token, isAuthenticated, login, logout, ready }}>
       <NavigationContainer>
         <RouterNavigation />
       </NavigationContainer>
