@@ -12,8 +12,8 @@ export default function LoginScreen({ navigation }) {
   const { loading, error, errors, request } = useHttp();
   const auth = useContext(AuthContext)
 
-  const [email, setEmail] = useState(null)
-  const [pass, setPassword] = useState(null)
+  const [email, setEmail] = useState('dmitriy.h@avega-group.com')
+  const [pass, setPassword] = useState('deutsche94')
 
   const loginAsync = useCallback(async () => {
     try {

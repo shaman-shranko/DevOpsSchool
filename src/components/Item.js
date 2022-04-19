@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Links } from "../constants";
 
 export default Item = ({ navigation, data, isCourse = false }) => {
+  let progress = data.progress ?? 0
   return (
     <View style={{ backgroundColor: "white", padding: 20, borderRadius: 20, height: "100%" }}>
 
@@ -35,13 +36,17 @@ export default Item = ({ navigation, data, isCourse = false }) => {
           <View style={{ width: 20 }}>
             <Ionicons name={'stats-chart-sharp'} size={14} />
           </View>
-          <Text>{data.lessons} lessons</Text>
+          <View>
+            <Text>{`${data.lessons} lessons`}</Text>
+          </View>
         </View>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View style={{ width: 20 }}>
             <Ionicons name={'person-sharp'} size={14} />
           </View>
-          <Text>{data.video} video explanations</Text>
+          <View>
+            <Text>{`${data.video} video explanations`}</Text>
+          </View>
         </View>
       </View>
 
@@ -51,27 +56,32 @@ export default Item = ({ navigation, data, isCourse = false }) => {
           <View style={{ width: 20 }}>
             <Ionicons name={'pencil-sharp'} size={14} />
           </View>
-          <Text>{data.exercises} excercises</Text>
+          <View>
+            <Text>{`${data.exercises} excercises`}</Text>
+          </View>
         </View>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View style={{ width: 20 }}>
             <Ionicons name={'time-sharp'} size={14} />
           </View>
-          <Text>{data.hours} hours</Text>
+          <View>
+            <Text>{`${data.hours} hours`}</Text>
+          </View>
         </View>
       </View>
 
       {/* Text description */}
-      <Text style={{ paddingVertical: 20, textAlign: "justify" }}>
-        {data.description}
-      </Text>
-
+      <View>
+        <Text style={{ paddingVertical: 20, textAlign: "justify" }}>
+          {data.description}
+        </Text>
+      </View>
       {!isCourse ?
         <View>
           {/* Progress bar */}
           <View style={{ paddingVertical: 10, flexDirection: "row", width: "100%" }}>
-            <Progress.Bar progress={data.progress / 100} width={285} height={18} borderWidth={0} color={'#6786DA'} unfilledColor={"lightgrey"} />
-            <Text style={{ width: 40, textAlign: "right" }}>{data.progress}%</Text>
+            <Progress.Bar progress={progress / 100} width={285} height={18} borderWidth={0} color={'#6786DA'} unfilledColor={"lightgrey"} />
+            <Text style={{ width: 40, textAlign: "right" }}>{`${progress}%`}</Text>
           </View>
 
           {/* Details */}

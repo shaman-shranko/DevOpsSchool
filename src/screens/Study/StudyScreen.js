@@ -16,7 +16,7 @@ export default function StudyScreen({ navigation }) {
   const dataLoading = useCallback(async () => {
     try {
       let response = await request(Links.StudyLink);
-      setStudy(response)
+      setStudy(response.data)
     } catch (err) {
       Alert.alert(err.message)
     }
