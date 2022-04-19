@@ -1,30 +1,34 @@
-
 import React, { useState, useCallback, useContext } from "react";
-import { Button, Input } from "react-native-elements";
-import { commonStyle } from "../../styles/common.style";
 import { Text, TouchableOpacity, View } from 'react-native'
-import { useHttp } from "../../hooks/http.hook";
 import { AuthContext } from "../../context/auth.context";
+import ErrorMessage from "../../components/ErrorMessage";
+import { commonStyle } from "../../styles/common.style";
+import { Button, Input } from "react-native-elements";
+import { useHttp } from "../../hooks/http.hook";
 import { Links } from "../../constants";
 
 export default function LoginScreen({ navigation }) {
 
-  const { loading, errors, request } = useHttp();
+  const { loading, error, errors, request } = useHttp();
   const auth = useContext(AuthContext)
 
-
   const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
+  const [pass, setPassword] = useState(null)
 
   const loginAsync = useCallback(async () => {
     try {
-      const form = {email,password}
+      const form = { email, pass, device_id: "shaman_phone" }
       let response = await request(Links.LoginLink, "POST", form)
-      auth.login(response);
+      let userData = {
+        ...response.user,
+        token: response.token
+      }
+      console.log("User data",userData)
+      auth.login(userData);
     } catch (error) {
 
     }
-  }, [request,email,password])
+  }, [request, email, pass])
 
   return (
     <View style={commonStyle.AuthContainer}>
@@ -50,10 +54,10 @@ export default function LoginScreen({ navigation }) {
             errorMessage={errors && errors.email}
           />
           <Input
-            value={password}
+            value={pass}
             onChangeText={(value) => { setPassword(value) }}
             placeholder="Пароль"
-            errorMessage={errors && errors.password}
+            errorMessage={errors && errors.pass}
             disabled={loading}
             secureTextEntry
           />
@@ -87,6 +91,7 @@ export default function LoginScreen({ navigation }) {
         />
       </View>
 
+      {error && <ErrorMessage error={error} />}
     </View>
   )
 }

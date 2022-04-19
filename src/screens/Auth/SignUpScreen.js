@@ -1,27 +1,30 @@
-
-import React, { useCallback, useState } from "react";
-import { Button, Input } from "react-native-elements";
+import ErrorMessage from "../../components/ErrorMessage";
 import { commonStyle } from "../../styles/common.style";
+import { Button, Input } from "react-native-elements";
+import React, { useCallback, useState } from "react";
 import { useHttp } from "../../hooks/http.hook";
 import { Text, View } from 'react-native'
 import { Links } from "../../constants";
 
 export default function SignUpScreen({ navigation }) {
 
-  const { loading, request } = useHttp();
+  const model = "models\\usersModel_S_USERS_ASSIGN_CREATE_";
+
+  const { loading, request, error, errors } = useHttp();
   const [form, setForm] = useState({
     email: null,
-    password: null,
+    pass: null,
+    device_id: "shaman_phone"
   })
 
   const signUpAsync = useCallback(async () => {
     try {
-      let response = await request(Links.LoginLink, "POST", form)
-      console.log("Response", response);
-    } catch (error) {
+      console.log("Form", form);
+      let response = await request(Links.SignUpLink, "POST", form)
+    } catch (err) {
 
     }
-  }, [request])
+  }, [request, form])
 
   return (
     <View style={commonStyle.AuthContainer}>
@@ -39,15 +42,17 @@ export default function SignUpScreen({ navigation }) {
         {/* Inputs */}
         <View style={{ padding: 0 }}>
           <Input
-            value={form.email}
             onChangeText={(value) => { setForm({ ...form, email: value }) }}
-            placeholder="Email"
+            errorMessage={errors && errors[model + 'email']}
             keyboardType="email-address"
+            placeholder="Email"
+            value={form.email}
           />
           <Input
-            value={form.password}
-            onChangeText={(value) => { setForm({ ...form, password: value }) }}
+            onChangeText={(value) => { setForm({ ...form, pass: value }) }}
+            errorMessage={errors && errors[model + 'pass']}
             placeholder="Пароль"
+            value={form.pass}
             secureTextEntry
           />
         </View>
@@ -55,7 +60,7 @@ export default function SignUpScreen({ navigation }) {
         <View style={{ marginTop: 10 }}>
           <Button
             buttonStyle={{ marginHorizontal: 10, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: "blue" }}
-            onPress={() => { signUpAsync }}
+            onPress={signUpAsync}
             title={"Создать аккаунт"}
             disabled={loading}
             type='outline'
@@ -72,7 +77,7 @@ export default function SignUpScreen({ navigation }) {
           type='outline'
         />
       </View>
-
+      {error && <ErrorMessage error={error} />}
     </View>
   )
 }

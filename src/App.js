@@ -13,10 +13,10 @@ import { AuthContext } from './context/auth.context';
 import { useAuth } from './hooks/auth.hook';
 
 export default function App() {
-  const { userId, token, login, logout, ready } = useAuth()
+  const { userId, token, userData, login, logout, ready } = useAuth()
   const isAuthenticated = !!token
   return (
-    <AuthContext.Provider value={{ userId, token, isAuthenticated, login, logout, ready }}>
+    <AuthContext.Provider value={{ userId, token, userData, isAuthenticated, login, logout, ready }}>
       <NavigationContainer>
         <RouterNavigation />
       </NavigationContainer>
