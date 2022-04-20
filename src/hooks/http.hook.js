@@ -13,11 +13,17 @@ export const useHttp = () => {
       if (body) {
         body = JSON.stringify(body)
         headers['Content-Type'] = "application/json"
+        headers['Accept'] = "application/json"
       }
 
       const response = await fetch(url, { method, body, headers })
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Something goes wrong')
+      }
+
       const data = await response.json()
-      console.log(data);
+
       if (data.status == 0) {
         if (data.error) {
           if ('string' == typeof data.error) {
@@ -25,20 +31,18 @@ export const useHttp = () => {
             throw new Error(data.error)
           } else {
             setErrors(data.error)
-            throw new Error('Check errors')
+            throw new Error(data.error)
           }
         }
       }
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Something goes wrong')
-      }
+      
 
       setLoading(false)
       return data
 
     } catch (e) {
-      console.log("Common error:", e.message);
+      console.log(e.message);
       setLoading(false)
       setError(e.message)
       throw e

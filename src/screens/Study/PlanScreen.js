@@ -9,8 +9,8 @@ import Topic from "../../components/Topic";
 import { Links } from "../../constants";
 
 export default function PlanScreen({ navigation, route }) {
-  const [lessons, setLessons] = useState(null)
   const { loading, error, errors, request } = useHttp();
+  const [lessons, setLessons] = useState(null)
   const auth = useContext(AuthContext)
   const { URLS, URL } = Links()
 
@@ -25,7 +25,6 @@ export default function PlanScreen({ navigation, route }) {
           user_id: auth.userId
         }
       );
-      console.log("Response",response.data);
       if (response && !error && !errors) {
         setLessons(response.data)
       }

@@ -8,7 +8,7 @@ export default Topic = ({ data, index, navigation }) => {
   const { URL, URLS } = Links()
   return (
     <TouchableOpacity
-      onPress={() => { navigation.navigate('Topic', { name: data.name }) }}
+      onPress={() => { navigation.navigate('Topic', { name: data.name, plan_id: data.id }) }}
       style={{ backgroundColor: "white", marginBottom: 10, borderRadius: 10 }}
     >
       <View style={{ borderRadius: 10 }}>

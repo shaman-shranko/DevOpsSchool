@@ -1,31 +1,41 @@
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { AuthContext } from "../../context/auth.context";
 import { useHttp } from "../../hooks/http.hook";
 import { Button } from "react-native-elements";
 import Loader from "../../components/Loader";
+import Empty from "../../components/Empty";
 import { Links } from "../../constants";
 
-export default function TopicScreen({ navigation }) {
-  const { loading, request } = useHttp();
+export default function TopicScreen({ navigation, route }) {
   const [topic, setTopic] = useState(null)
+  const { loading, error, errors, request } = useHttp();
+  const auth = useContext(AuthContext)
+  const { URL, URLS } = Links()
 
   const dataLoading = useCallback(async () => {
     try {
-      let response = await request(Links.TopicLink);
-      setTopic(response)
+      let plan_id = route?.params?.plan_id ?? 0
+      let response = await request(
+        URL + URLS.TopicLink + plan_id,
+        "POST",
+        {
+          token: auth.token,
+          user_id: auth.userId
+        }
+      );
+      if (response && !error && !errors) {
+        setTopic(response.data)
+      }
     } catch (err) {
-      console.log("Lessons screen reports:", err.message);
+      console.log("Topic screen reports:", err.message);
     }
-  }, [request])
+  }, [request, URL])
 
   useEffect(() => {
     dataLoading();
   }, [dataLoading])
-
-  if (loading) {
-    return <Loader />
-  }
 
   const Item = ({ name, description, index, stars }) => (
     <TouchableOpacity onPress={() => { navigation.navigate('Lesson', { name: "Lesson" + (index) + ": " + name }) }}>
@@ -64,14 +74,23 @@ export default function TopicScreen({ navigation }) {
     <Item index={index + 1} stars={item.stars} name={item.name} description={item.description} />
   );
 
+  if (loading) {
+    return <Loader />
+  }
+
+  if (!topic) {
+    return <Empty />
+  }
+
+  const done = topic?.lessons?.filter(item => item.stars != null).length ?? 0
   return (
     <View>
       {/* Progress */}
       <View>
-        {topic && topic.count && topic.done &&
+        {topic && topic.count &&
           <View style={{ flexDirection: "row" }}>
             {Array.from({ length: topic.count }, (item, index) =>
-              <View key={`index_${index}`} style={{ flex: 1, height: 5, margin: 1, backgroundColor: (index + 1) <= topic.done ? "green" : "lightgreen" }}></View>
+              <View key={`index_${index}`} style={{ flex: 1, height: 5, margin: 1, backgroundColor: (index + 1) <= done ? "green" : "lightgreen" }}></View>
             )}
           </View>
         }
@@ -79,7 +98,7 @@ export default function TopicScreen({ navigation }) {
       {/* Progress text */}
       <View>
         <Text style={{ textAlign: "center", fontWeight: 'bold', fontSize: 14, paddingVertical: 5 }}>
-          {`Выполнено уроков: ${topic && topic.done} из ${topic && topic.count}`}
+          {`Выполнено уроков: 0 из ${topic && topic.count}`}
         </Text>
       </View>
       {/* Finish topic now button */}
@@ -106,7 +125,7 @@ export default function TopicScreen({ navigation }) {
             }}
             resizeMode={"contain"}
             source={{
-              uri: `http://192.168.0.113:5000/${topic.picture}`
+              uri: URL + URLS.Public + topic.picture
             }}
             onLoad={() => (<ActivityIndicator size={40} color={"red"} />)}
           />

@@ -10,7 +10,7 @@ export const Links = () => {
 
     StudyLink: `api/get-courses`,
     PlanLink: `api/ge-plan-ist/`,
-    TopicLink: `api/devops/topic`,
+    TopicLink: `api/get-plan/`,
     LessonLink: `api/devops/single`,
     TestLink: `api/devops/test`,
 

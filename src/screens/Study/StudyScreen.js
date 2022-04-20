@@ -10,7 +10,7 @@ import { Links } from "../../constants";
 import { View } from 'react-native';
 
 export default function StudyScreen({ navigation }) {
-  const { loading, request } = useHttp();
+  const { loading, error, errors, request } = useHttp();
   const [study, setStudy] = useState(null)
   const auth = useContext(AuthContext)
   const { URLS, URL } = Links()
@@ -25,7 +25,9 @@ export default function StudyScreen({ navigation }) {
           user_id: auth.userId
         }
       );
-      setStudy(response.data)
+      if (response && !error && !errors) {
+        setStudy(response.data)
+      }
     } catch (err) {
 
     }
