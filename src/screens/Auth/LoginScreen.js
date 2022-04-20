@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
+import { Button, Input, Overlay } from "react-native-elements";
 import { Text, TouchableOpacity, View } from 'react-native'
 import { AuthContext } from "../../context/auth.context";
 import ErrorMessage from "../../components/ErrorMessage";
 import { commonStyle } from "../../styles/common.style";
-import { Button, Input } from "react-native-elements";
 import { useHttp } from "../../hooks/http.hook";
 import { Links } from "../../constants";
 
@@ -11,24 +11,36 @@ export default function LoginScreen({ navigation }) {
 
   const { loading, error, errors, request } = useHttp();
   const auth = useContext(AuthContext)
+  const { URLS, saveUrl, URL } = Links()
 
   const [email, setEmail] = useState('dmitriy.h@avega-group.com')
   const [pass, setPassword] = useState('deutsche94')
 
+  const [show, setShow] = useState(false)
+  const [url, setUrl] = useState("")
+
   const loginAsync = useCallback(async () => {
     try {
       const form = { email, pass, device_id: "shaman_phone" }
-      let response = await request(Links.LoginLink, "POST", form)
+      let response = await request(URL + URLS.LoginLink, "POST", form)
       let userData = {
         ...response.user,
         token: response.token
       }
-      console.log("User data",userData)
       auth.login(userData);
     } catch (error) {
 
     }
-  }, [request, email, pass])
+  }, [request, email, pass, URL])
+
+  useEffect(() => {
+    setUrl(URL)
+  }, [URL])
+
+  const saveLink = useCallback(async () => {
+    await saveUrl(url)
+    setShow(false)
+  }, [url, saveUrl])
 
   return (
     <View style={commonStyle.AuthContainer}>
@@ -91,6 +103,23 @@ export default function LoginScreen({ navigation }) {
         />
       </View>
 
+      <Button
+        title={'Change URL'}
+        onPress={() => { setShow(true) }}
+      />
+      <Overlay isVisible={show} onBackdropPress={() => { setShow(false) }}>
+        <View style={{ width: 300 }}>
+          <Input
+            value={url}
+            onChangeText={(value) => { setUrl(value) }}
+            placeholder="URL"
+          />
+          <Button
+            title={'Save'}
+            onPress={() => { saveLink() }}
+          />
+        </View>
+      </Overlay>
       {error && <ErrorMessage error={error} />}
     </View>
   )

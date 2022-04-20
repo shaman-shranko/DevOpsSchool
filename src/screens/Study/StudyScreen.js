@@ -1,29 +1,38 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
+import { AuthContext } from "../../context/auth.context";
 import { commonStyle } from "../../styles/common.style";
 import Carousel from 'react-native-snap-carousel';
 import { useHttp } from "../../hooks/http.hook";
 import Loader from "../../components/Loader";
 import Empty from "../../components/Empty";
-import { Alert, View } from 'react-native';
 import Item from "../../components/Item";
 import { Links } from "../../constants";
-
+import { View } from 'react-native';
 
 export default function StudyScreen({ navigation }) {
   const { loading, request } = useHttp();
   const [study, setStudy] = useState(null)
+  const auth = useContext(AuthContext)
+  const { URLS, URL } = Links()
 
   const dataLoading = useCallback(async () => {
     try {
-      let response = await request(Links.StudyLink);
+      let response = await request(
+        URL + URLS.StudyLink,
+        "POST",
+        {
+          token: auth.token,
+          user_id: auth.userId
+        }
+      );
       setStudy(response.data)
     } catch (err) {
-      Alert.alert(err.message)
-    }
-  }, [request])
 
-  const goToScreen = (route, name) => {
-    navigation.navigate(route, { name: name })
+    }
+  }, [request, URL])
+
+  const goToScreen = (route, name, course_id) => {
+    navigation.navigate(route, { name: name, course_id: course_id })
   }
 
   useEffect(() => {

@@ -1,22 +1,39 @@
-// const URL = `http://192.168.0.113:5000/`;
-const URL = `http://192.168.0.113:1501/`
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState, useCallback } from "react";
 
-const LoginLink = URL + `api/login`;
-const SignUpLink = URL + `api/registration`;
 
-const StudyLink = URL + `api/get-courses`;
-const PlanLink = URL + `api/devops/plan`;
-const TopicLink = URL + `api/devops/topic`;
-const LessonLink = URL + `api/devops/single`;
-const TestLink = URL + `api/devops/test`;
-export const Links = {
-  Public: URL+'_uploads/',
-  StudyLink,
-  PlanLink,
-  TopicLink,
-  LessonLink,
-  TestLink,
+export const Links = () => {
+  const [URL, setURL] = useState("")
 
-  LoginLink,
-  SignUpLink
+  const [URLS, setURLS] = useState({
+    Public: '_uploads/',
+
+    StudyLink: `api/get-courses`,
+    PlanLink: `api/ge-plan-ist/`,
+    TopicLink: `api/devops/topic`,
+    LessonLink: `api/devops/single`,
+    TestLink: `api/devops/test`,
+
+    CoursesLink: `api/get-courses`,
+
+    LoginLink: `api/login`,
+    SignUpLink: `api/registration`
+  })
+
+  useEffect(() => {
+    getUrl()
+  }, [getUrl])
+
+  const getUrl = useCallback(async () => {
+    let url = await AsyncStorage.getItem('used_url')
+    if (url) {
+      setURL(url)
+    }
+  }, [])
+
+  const saveUrl = useCallback(async (url) => {
+    await AsyncStorage.setItem('used_url', url)
+    setURL(url)
+  }, [])
+  return { URLS, saveUrl, URL }
 }

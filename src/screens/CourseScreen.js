@@ -5,19 +5,21 @@ import { useHttp } from "../hooks/http.hook";
 import Loader from "../components/Loader";
 import Item from "../components/Item";
 import { View } from 'react-native'
+import { Links } from "../constants";
 
 export default function CourseScreen() {
   const { loading, request } = useHttp();
   const [course, setCourse] = useState(null)
+  const { URLS, URL } = Links()
 
   const dataLoading = useCallback(async () => {
     try {
-      let response = await request('http://192.168.0.113:5000/api/devops/courses');
-      setCourse(response)
+      let response = await request(URL + URLS.CoursesLink);
+      setCourse(response.data)
     } catch (err) {
       console.log("Course screen reports:", err.message);
     }
-  }, [request])
+  }, [request, URL])
 
   useEffect(() => {
     dataLoading();

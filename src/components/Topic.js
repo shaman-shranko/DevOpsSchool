@@ -4,6 +4,8 @@ import * as Progress from 'react-native-progress';
 import { Links } from "../constants";
 
 export default Topic = ({ data, index, navigation }) => {
+  let progress = data.progress ?? 0
+  const { URL, URLS } = Links()
   return (
     <TouchableOpacity
       onPress={() => { navigation.navigate('Topic', { name: data.name }) }}
@@ -21,7 +23,7 @@ export default Topic = ({ data, index, navigation }) => {
           resizeMode={"contain"}
 
           source={{
-            uri: Links.Public + data.picture
+            uri: URL + URLS.Public + data.picture
           }}
         />
         <View style={{ position: 'absolute', left: 10, top: 10, width: 30, height: 30, borderRadius: 30, backgroundColor: "#6786DA", justifyContent: "center", alignItems: "center" }}>
@@ -42,14 +44,14 @@ export default Topic = ({ data, index, navigation }) => {
         </View>
         <View style={{ flex: 1, alignItems: "flex-end" }}>
           <Progress.Circle
-            progress={data.progress / 100}
+            progress={progress / 100}
             size={50}
             borderWidth={0}
             color={'green'}
             thickness={5}
             showsText={true}
             formatText={() => {
-              return `${data.progress}%`
+              return `${progress}%`
             }}
             textStyle={
               {

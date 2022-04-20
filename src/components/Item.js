@@ -7,6 +7,7 @@ import { Links } from "../constants";
 
 export default Item = ({ navigation, data, isCourse = false }) => {
   let progress = data.progress ?? 0
+  const { URL, URLS } = Links()
   return (
     <View style={{ backgroundColor: "white", padding: 20, borderRadius: 20, height: "100%" }}>
 
@@ -22,7 +23,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
           }}
           resizeMode={"contain"}
           source={{
-            uri: Links.Public + data.picture
+            uri: URL + URLS.Public + data.picture
           }}
           onLoad={() => (<ActivityIndicator size={40} color={"red"} />)}
         />
@@ -95,7 +96,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
           {/* Button */}
           <View style={{ paddingVertical: 10 }}>
             <Button
-              onPress={() => { navigation('Plan', data.heading) }}
+              onPress={() => { navigation('Plan', data.heading, data.id) }}
               title="Learn More"
               color="#6786DA"
             />

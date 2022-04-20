@@ -16,15 +16,16 @@ export default function SignUpScreen({ navigation }) {
     pass: null,
     device_id: "shaman_phone"
   })
+  const { URLS, URL } = Links()
 
   const signUpAsync = useCallback(async () => {
     try {
       console.log("Form", form);
-      let response = await request(Links.SignUpLink, "POST", form)
+      let response = await request(URL + URLS.SignUpLink, "POST", form)
     } catch (err) {
 
     }
-  }, [request, form])
+  }, [request, form, URL])
 
   return (
     <View style={commonStyle.AuthContainer}>
