@@ -2,23 +2,23 @@ import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from "../../context/auth.context";
+import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
 import { Button } from "react-native-elements";
 import Loader from "../../components/Loader";
 import Empty from "../../components/Empty";
-import { Links } from "../../constants";
 
 export default function TopicScreen({ navigation, route }) {
   const [topic, setTopic] = useState(null)
   const { loading, error, errors, request } = useHttp();
   const auth = useContext(AuthContext)
-  const { URL, URLS } = Links()
+  const { Links } = useLink()
 
   const dataLoading = useCallback(async () => {
     try {
       let plan_id = route?.params?.plan_id ?? 0
       let response = await request(
-        URL + URLS.TopicLink + plan_id,
+        Links.TopicLink + plan_id,
         "POST",
         {
           token: auth.token,
@@ -31,14 +31,14 @@ export default function TopicScreen({ navigation, route }) {
     } catch (err) {
       console.log("Topic screen reports:", err.message);
     }
-  }, [request, URL])
+  }, [request, Links])
 
   useEffect(() => {
     dataLoading();
   }, [dataLoading])
 
-  const Item = ({ name, description, index, stars }) => (
-    <TouchableOpacity onPress={() => { navigation.navigate('Lesson', { name: "Lesson" + (index) + ": " + name }) }}>
+  const Item = ({ name, description, index, stars, id }) => (
+    <TouchableOpacity onPress={() => { navigation.navigate('Lesson', { name: "Lesson" + (index) + ": " + name, lesson_id: id }) }}>
       <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "lightgrey", paddingVertical: 5 }}>
         {/* Number */}
         <View style={{ flex: 2, alignItems: "center", justifyContent: "center" }}>
@@ -71,7 +71,7 @@ export default function TopicScreen({ navigation, route }) {
   );
 
   const renderItem = ({ item, index }) => (
-    <Item index={index + 1} stars={item.stars} name={item.name} description={item.description} />
+    <Item index={index + 1} stars={item.stars} name={item.name} id={item.id} description={item.description} />
   );
 
   if (loading) {
@@ -125,7 +125,7 @@ export default function TopicScreen({ navigation, route }) {
             }}
             resizeMode={"contain"}
             source={{
-              uri: URL + URLS.Public + topic.picture
+              uri: Links.Public + topic.picture
             }}
             onLoad={() => (<ActivityIndicator size={40} color={"red"} />)}
           />

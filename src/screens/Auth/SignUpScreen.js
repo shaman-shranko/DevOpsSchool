@@ -4,7 +4,7 @@ import { Button, Input } from "react-native-elements";
 import React, { useCallback, useState } from "react";
 import { useHttp } from "../../hooks/http.hook";
 import { Text, View } from 'react-native'
-import { Links } from "../../constants";
+import { useLink } from "../../hooks/links.hook";
 
 export default function SignUpScreen({ navigation }) {
 
@@ -16,16 +16,16 @@ export default function SignUpScreen({ navigation }) {
     pass: null,
     device_id: "shaman_phone"
   })
-  const { URLS, URL } = Links()
+  const { Links } = useLink()
 
   const signUpAsync = useCallback(async () => {
     try {
       console.log("Form", form);
-      let response = await request(URL + URLS.SignUpLink, "POST", form)
+      let response = await request(Links.SignUpLink, "POST", form)
     } catch (err) {
 
     }
-  }, [request, form, URL])
+  }, [request, form, Links])
 
   return (
     <View style={commonStyle.AuthContainer}>

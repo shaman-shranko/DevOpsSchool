@@ -1,11 +1,11 @@
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import * as Progress from 'react-native-progress';
-import { Links } from "../constants";
+import { useLink } from "../hooks/links.hook";
 
 export default Topic = ({ data, index, navigation }) => {
   let progress = data.progress ?? 0
-  const { URL, URLS } = Links()
+  const { Links } = useLink()
   return (
     <TouchableOpacity
       onPress={() => { navigation.navigate('Topic', { name: data.name, plan_id: data.id }) }}
@@ -23,7 +23,7 @@ export default Topic = ({ data, index, navigation }) => {
           resizeMode={"contain"}
 
           source={{
-            uri: URL + URLS.Public + data.picture
+            uri: Links.Public + data.picture
           }}
         />
         <View style={{ position: 'absolute', left: 10, top: 10, width: 30, height: 30, borderRadius: 30, backgroundColor: "#6786DA", justifyContent: "center", alignItems: "center" }}>
@@ -51,11 +51,11 @@ export default Topic = ({ data, index, navigation }) => {
             thickness={5}
             showsText={true}
             formatText={() => {
-              return `${progress}%`
+              return `${Number(progress).toFixed(2)}%`
             }}
             textStyle={
               {
-                fontSize: 14,
+                fontSize: 12,
                 color: "black",
                 fontWeight: '700'
               }

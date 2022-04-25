@@ -3,11 +3,11 @@ import React from 'react';
 import { ActivityIndicator, Button, Image, Text, TouchableOpacity, View } from 'react-native'
 import * as Progress from 'react-native-progress';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Links } from "../constants";
+import { useLink } from "../hooks/links.hook";
 
 export default Item = ({ navigation, data, isCourse = false }) => {
   let progress = data.progress ?? 0
-  const { URL, URLS } = Links()
+  const { Links } = useLink()
   return (
     <View style={{ backgroundColor: "white", padding: 20, borderRadius: 20, height: "100%" }}>
 
@@ -23,7 +23,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
           }}
           resizeMode={"contain"}
           source={{
-            uri: URL + URLS.Public + data.picture
+            uri: Links.Public + data.picture
           }}
           onLoad={() => (<ActivityIndicator size={40} color={"red"} />)}
         />
@@ -46,7 +46,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
             <Ionicons name={'person-sharp'} size={14} />
           </View>
           <View>
-            <Text>{`${data.video} video explanations`}</Text>
+            <Text>{`${data.plans} plans`}</Text>
           </View>
         </View>
       </View>

@@ -4,14 +4,14 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import { AuthContext } from "../../context/auth.context";
 import ErrorMessage from "../../components/ErrorMessage";
 import { commonStyle } from "../../styles/common.style";
+import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
-import { Links } from "../../constants";
 
 export default function LoginScreen({ navigation }) {
 
   const { loading, error, errors, request } = useHttp();
   const auth = useContext(AuthContext)
-  const { URLS, saveUrl, URL } = Links()
+  const { saveUrl, Links, URL } = useLink()
 
   const [email, setEmail] = useState('dmitriy.h@avega-group.com')
   const [pass, setPassword] = useState('deutsche94')
@@ -22,7 +22,7 @@ export default function LoginScreen({ navigation }) {
   const loginAsync = useCallback(async () => {
     try {
       const form = { email, pass, device_id: "shaman_phone" }
-      let response = await request(URL + URLS.LoginLink, "POST", form)
+      let response = await request(Links.LoginLink, "POST", form)
       let userData = {
         ...response.user,
         token: response.token
@@ -31,7 +31,7 @@ export default function LoginScreen({ navigation }) {
     } catch (error) {
 
     }
-  }, [request, email, pass, URL])
+  }, [request, email, pass, Links])
 
   useEffect(() => {
     setUrl(URL)

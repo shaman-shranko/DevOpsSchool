@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { commonStyle } from "../../styles/common.style";
 import { CheckBox, Button } from "react-native-elements";
+import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
-import { WebView } from 'react-native-webview';
 import Loader from "../../components/Loader";
 import Empty from "../../components/Empty";
 import { Text, View } from 'react-native'
-import { Links } from "../../constants";
 
 export default function TestScreen({ navigation }) {
   const { loading, request } = useHttp();
+  const { Links } = useLink()
   const [data, setData] = useState(null)
   const [active, setActive] = useState(0)
   const [count, setCount] = useState(0)
@@ -23,7 +23,7 @@ export default function TestScreen({ navigation }) {
     } catch (err) {
       console.log("Test screen reports:", err.message);
     }
-  }, [request])
+  }, [request, Links])
 
   const checkAnswer = (index, answer) => {
     form[index] = answer

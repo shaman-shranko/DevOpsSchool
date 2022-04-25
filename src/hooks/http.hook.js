@@ -9,20 +9,24 @@ export const useHttp = () => {
     setLoading(true);
     clearError()
 
+    console.log("URL", url);
+
     try {
       if (body) {
         body = JSON.stringify(body)
         headers['Content-Type'] = "application/json"
         headers['Accept'] = "application/json"
       }
-
       const response = await fetch(url, { method, body, headers })
-      
       if (!response.ok) {
         throw new Error(data.message || 'Something goes wrong')
       }
 
+      console.log("Response", response);
+
       const data = await response.json()
+
+      console.log("Data", data);
 
       if (data.status == 0) {
         if (data.error) {
@@ -36,13 +40,10 @@ export const useHttp = () => {
         }
       }
 
-      
-
       setLoading(false)
       return data
 
     } catch (e) {
-      console.log(e.message);
       setLoading(false)
       setError(e.message)
       throw e
