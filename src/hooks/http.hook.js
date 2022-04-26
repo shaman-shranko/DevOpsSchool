@@ -9,8 +9,6 @@ export const useHttp = () => {
     setLoading(true);
     clearError()
 
-    console.log("URL", url);
-
     try {
       if (body) {
         body = JSON.stringify(body)
@@ -22,11 +20,7 @@ export const useHttp = () => {
         throw new Error(data.message || 'Something goes wrong')
       }
 
-      console.log("Response", response);
-
       const data = await response.json()
-
-      console.log("Data", data);
 
       if (data.status == 0) {
         if (data.error) {

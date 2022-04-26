@@ -2,11 +2,11 @@ import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from "../../context/auth.context";
+import Loader from "../../components/loader.component";
+import Empty from "../../components/empty.component";
 import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
 import { Button } from "react-native-elements";
-import Loader from "../../components/Loader";
-import Empty from "../../components/Empty";
 
 export default function TopicScreen({ navigation, route }) {
   const [topic, setTopic] = useState(null)
@@ -18,14 +18,14 @@ export default function TopicScreen({ navigation, route }) {
     try {
       let plan_id = route?.params?.plan_id ?? 0
       let response = await request(
-        Links.TopicLink + plan_id,
+        Links?.TopicLink + plan_id,
         "POST",
         {
           token: auth.token,
           user_id: auth.userId
         }
       );
-      if (response && !error && !errors) {
+      if (response && response.data) {
         setTopic(response.data)
       }
     } catch (err) {

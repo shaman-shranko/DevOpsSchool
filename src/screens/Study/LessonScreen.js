@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 import SectionComponent from "../../components/section.component";
 import { AuthContext } from "../../context/auth.context";
 import { commonStyle } from "../../styles/common.style";
+import Loader from "../../components/loader.component";
 import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
-import Loader from "../../components/Loader";
 import { Button, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -23,19 +23,16 @@ export default function LessonScreen({ navigation, route }) {
 
   const dataLoading = useCallback(async () => {
     try {
-
-
       let response = await request(
-        Links.LessonLink + lessonId,
+        Links?.LessonLink + lessonId,
         "POST",
         {
           token: auth.token,
           user_id: auth.userId
         }
       );
-      if (response && !error && !errors) {
+      if (response && response.data) {
         setData(response.data)
-
         setContentLength(response.data.body.length)
       }
     } catch (err) {

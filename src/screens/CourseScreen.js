@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { commonStyle } from "../styles/common.style";
+import Loader from "../components/loader.component";
 import Carousel from 'react-native-snap-carousel';
-import { useHttp } from "../hooks/http.hook";
-import Loader from "../components/Loader";
-import Item from "../components/Item";
-import { View } from 'react-native'
+import Item from "../components/item.component";
 import { useLink } from "../hooks/links.hook";
+import { useHttp } from "../hooks/http.hook";
+import { View } from 'react-native'
 
 export default function CourseScreen() {
   const { loading, request } = useHttp();

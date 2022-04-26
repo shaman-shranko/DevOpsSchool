@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
 import { commonStyle } from "../../styles/common.style";
+import Loader from "../../components/loader.component";
+import Empty from "../../components/empty.component";
+import Item from "../../components/item.component";
 import Carousel from 'react-native-snap-carousel';
 import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
-import Loader from "../../components/Loader";
-import Empty from "../../components/Empty";
-import Item from "../../components/Item";
 import { View } from 'react-native';
 
 export default function StudyScreen({ navigation }) {
@@ -18,14 +18,14 @@ export default function StudyScreen({ navigation }) {
   const dataLoading = useCallback(async () => {
     try {
       let response = await request(
-        Links.StudyLink,
+        Links?.StudyLink,
         "POST",
         {
           token: auth.token,
           user_id: auth.userId
         }
       );
-      if (response && !error && !errors) {
+      if (response && response.data) {
         setStudy(response.data)
       }
     } catch (err) {

@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
 import { CheckBox, Button } from "react-native-elements";
 import { commonStyle } from "../../styles/common.style";
+import Loader from "../../components/loader.component";
+import Empty from "../../components/empty.component";
 import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
-import Loader from "../../components/Loader";
-import Empty from "../../components/Empty";
 import { Text, View } from 'react-native'
 
 export default function TestScreen({ navigation, route }) {
@@ -27,7 +27,7 @@ export default function TestScreen({ navigation, route }) {
   const dataLoading = useCallback(async () => {
     try {
       let response = await request(
-        Links.TestLink + lessonId,
+        Links?.TestLink + lessonId,
         "POST",
         {
           token: auth.token,
@@ -37,9 +37,8 @@ export default function TestScreen({ navigation, route }) {
       if (response && response.data) {
         setData(response.data)
         let q = JSON.parse(response.data.questions)
-        console.log(q);
         setQuestions(q)
-        setCount(q.length)
+        setCount(Object.values(q).length)
       }
     } catch (err) {
       console.log("Test screen reports:", err.message);
@@ -128,11 +127,19 @@ export default function TestScreen({ navigation, route }) {
           </View>
           {/* Next question button */}
           <View>
-            <Button
-              title={'Next question'}
-              onPress={() => { if (active < count) setActive(active + 1) }}
-              disabled={!(active < count - 1)}
-            />
+            {count >= 1 && active < count - 1 &&
+              <Button
+                title={'Next question'}
+                onPress={() => { if (active < count) setActive(active + 1) }}
+                disabled={!(active < count - 1)}
+              />
+            }
+            {active == count - 1 &&
+              <Button
+                title={'Finish test'}
+                onPress={() => { console.log("Test finished"); }}
+              />
+            }
           </View>
           {/* Console section */}
           <View style={commonStyle.MT20}>

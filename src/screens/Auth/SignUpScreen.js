@@ -1,10 +1,10 @@
-import ErrorMessage from "../../components/ErrorMessage";
+import ErrorMessage from "../../components/error.component";
 import { commonStyle } from "../../styles/common.style";
 import { Button, Input } from "react-native-elements";
 import React, { useCallback, useState } from "react";
+import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
 import { Text, View } from 'react-native'
-import { useLink } from "../../hooks/links.hook";
 
 export default function SignUpScreen({ navigation }) {
 
