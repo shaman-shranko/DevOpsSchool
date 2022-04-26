@@ -6,6 +6,7 @@ import { AuthContext } from "../context/auth.context";
 
 export default function CabinetScreen({ navigation }) {
   const auth = useContext(AuthContext)
+  const { userData } = auth
 
   return (
     <View style={commonStyle.Container}>
@@ -22,10 +23,10 @@ export default function CabinetScreen({ navigation }) {
           {/* Name and email */}
           <View style={commonStyle.PV20}>
             <Text style={commonStyle.TitleText}>
-              Dima Hlushchuk
+              {userData?.first_name ?? "Hi, "} {userData?.last_name ?? "Newbie"}
             </Text>
             <Text style={commonStyle.TextCenter}>
-              dmitriy.h@avega-group.com
+              {userData?.email ?? "your@email.com"}
             </Text>
           </View>
           {/* Start learn and buy buttons */}
