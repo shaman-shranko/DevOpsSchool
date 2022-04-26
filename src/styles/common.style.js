@@ -18,7 +18,7 @@ export const commonStyle = StyleSheet.create({
   CardContainer: {
     width: 400,
     height: "90%",
-    padding: 20,
+    padding: 15,
   },
   LoaderContainer: {
     backgroundColor: "white",

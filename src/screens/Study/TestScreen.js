@@ -1,33 +1,56 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { commonStyle } from "../../styles/common.style";
+import React, { useState, useEffect, useCallback, useContext } from "react";
+import { AuthContext } from "../../context/auth.context";
 import { CheckBox, Button } from "react-native-elements";
+import { commonStyle } from "../../styles/common.style";
 import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
 import Loader from "../../components/Loader";
 import Empty from "../../components/Empty";
 import { Text, View } from 'react-native'
 
-export default function TestScreen({ navigation }) {
-  const { loading, request } = useHttp();
-  const { Links } = useLink()
-  const [data, setData] = useState(null)
+export default function TestScreen({ navigation, route }) {
+  const [questions, setQuestions] = useState(null)
+  const [lessonId, setLessonId] = useState(null)
   const [active, setActive] = useState(0)
+  const [data, setData] = useState(null)
+  const { loading, request } = useHttp();
   const [count, setCount] = useState(0)
+  const auth = useContext(AuthContext)
   const [form, setForm] = useState([])
+  const { Links } = useLink()
+
+  useEffect(() => {
+    setLessonId(route?.params?.lessonId ?? 0)
+  }, [lessonId])
+
 
   const dataLoading = useCallback(async () => {
     try {
-      let response = await request(Links.TestLink);
-      setData(response)
-      setCount(response.length)
+      let response = await request(
+        Links.TestLink + lessonId,
+        "POST",
+        {
+          token: auth.token,
+          user_id: auth.userId
+        }
+      );
+      if (response && response.data) {
+        setData(response.data)
+        let q = JSON.parse(response.data.questions)
+        console.log(q);
+        setQuestions(q)
+        setCount(q.length)
+      }
     } catch (err) {
       console.log("Test screen reports:", err.message);
     }
   }, [request, Links])
 
   const checkAnswer = (index, answer) => {
-    form[index] = answer
-    setForm({ ...form })
+    if (!form[index]) {
+      form[index] = answer
+      setForm({ ...form })
+    }
   }
 
   useEffect(() => {
@@ -40,6 +63,21 @@ export default function TestScreen({ navigation }) {
 
   if (!data) {
     return <Empty />
+  }
+  const Correct = { borderWidth: 1, borderColor: 'green' }
+  const Incorrect = { borderWidth: 1, borderColor: 'red' }
+
+  const checkSelection = (index, subindex, correct) => {
+    let style = { marginHorizontal: 0, marginLeft: 0, marginRight: 0 }
+    if (form[index] >= 0) {
+      if (correct || form[index] == subindex) {
+        style = { ...style, ...Correct }
+      }
+      if (!correct && form[index] == subindex) {
+        style = { ...style, ...Incorrect }
+      }
+    }
+    return style
   }
 
   return (
@@ -59,8 +97,9 @@ export default function TestScreen({ navigation }) {
             )
             )}
           </View>
+          {/*  */}
           <View>
-            {data && data.map((element, index) => {
+            {questions && Object.values(questions).map((element, index) => {
               if (index == active) {
                 return (
                   <View key={`question_${index}`}>
@@ -68,12 +107,13 @@ export default function TestScreen({ navigation }) {
                       {element.question}
                     </Text>
                     <View>
-                      {element.answers.map((answer, sub_index) => {
+                      {Object.values(element.answers).map((answer, sub_index) => {
                         return (
                           <View key={`answer_${index}_${sub_index}`}>
                             <CheckBox
-                              title={answer.label}
-                              containerStyle={{ marginHorizontal: 0, marginLeft: 0, marginRight: 0 }}
+                              title={answer.answer}
+                              disabled={form[index] >= 0}
+                              containerStyle={checkSelection(index, sub_index, answer.correct)}
                               checked={sub_index == form[index]}
                               onPress={() => { checkAnswer(index, sub_index) }}
                             />

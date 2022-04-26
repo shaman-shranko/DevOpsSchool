@@ -30,7 +30,7 @@ export const useLink = () => {
       PlanLink: url + `api/get-plan-list/`,
       TopicLink: url + `api/get-plan/`,
       LessonLink: url + `api/get-lesson/`,
-      TestLink: url + `api/devops/test`,
+      TestLink: url + `api/get-test/`,
 
       CoursesLink: url + `api/get-courses`,
 

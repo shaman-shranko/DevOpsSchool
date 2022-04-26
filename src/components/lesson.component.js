@@ -8,8 +8,8 @@ import { View } from 'react-native'
 export default LessonComponent = (props) => {
     const [html, setHtml] = useState("")
     const [height, setHeight] = useState(50);
-    const { data, type } = props;
-    const { Links } = useLink
+    const { data, type, url } = props;
+    const { Links } = useLink()
 
     const onWebViewMessage = (event) => {
         setHeight(Number(event.nativeEvent.data) + 30)
@@ -38,7 +38,7 @@ export default LessonComponent = (props) => {
         setHeight(height)
     }, [height])
 
-    if (type != 'video' || type != 'test') {
+    if (type != 'video' && type != 'test') {
         return (
             <View style={{ height: height, width: "100%" }}>
                 <WebView
@@ -55,13 +55,17 @@ export default LessonComponent = (props) => {
     if (type == "video") {
         return (
             <VideoPlayer
-                video={{ uri: Links.Public + data.video }}
+                video={{ uri: Links.Public + url }}
+                style={{ borderWidth: 1, borderColor: "black" }}
                 videoWidth={1600}
                 videoHeight={900}
+                pauseOnPress
             />
         )
     }
-
+    if (type == "test") {
+        return null
+    }
     return null
 }
 const styles = `<style>/*GENERAL*/
