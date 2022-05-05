@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import SectionComponent from "../../components/section.component";
+import { Button, TouchableOpacity, View } from 'react-native';
 import { AuthContext } from "../../context/auth.context";
 import { commonStyle } from "../../styles/common.style";
 import Loader from "../../components/loader.component";
 import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
-import { Button, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default function LessonScreen({ navigation, route }) {
@@ -56,15 +56,16 @@ export default function LessonScreen({ navigation, route }) {
           {contentLength > 1 &&
             <View style={{ height: "2%", width: "100%", flexDirection: 'row' }}>
               {Array.from({ length: contentLength }, (_, index) => (
-                <View
+                <TouchableOpacity
                   key={`index_${index}`}
+                  onPress={() => { setActive(index) }}
                   style={{
                     flex: 1,
                     height: "100%",
                     margin: 1,
-                    backgroundColor: !!(index <= active) ? "lightgreen" : "lightgrey"
+                    backgroundColor: index <= active ? "lightgreen" : "lightgrey"
                   }}>
-                </View>
+                </TouchableOpacity>
               ))}
             </View>
           }
@@ -83,10 +84,12 @@ export default function LessonScreen({ navigation, route }) {
           {/* Button */}
           {((contentLength > 1 && active == contentLength - 1) || contentLength == 1) ?
             <View style={commonStyle.PV10}>
-              <Button
-                title="Complete test"
-                onPress={() => { navigation.navigate("Test", { lessonId: data.test_id }) }}
-              />
+              {data && data.test_id &&
+                <Button
+                  title="Complete test"
+                  onPress={() => { navigation.navigate("Test", { lessonId: data.test_id }) }}
+                />
+              }
             </View>
             :
             <View style={commonStyle.PV10}>

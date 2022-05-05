@@ -26,6 +26,7 @@ export default function TopicScreen({ navigation, route }) {
         }
       );
       if (response && response.data) {
+        console.log("Topic data", response.data);
         setTopic(response.data)
       }
     } catch (err) {
@@ -49,10 +50,10 @@ export default function TopicScreen({ navigation, route }) {
         </View>
         {/* Texts */}
         <View style={{ flex: 7 }}>
-          <Text style={{ fontSize: 18, paddingVertical: 10 }}>
+          <Text style={{ fontSize: 18, paddingVertical: 10 , color: "#3e3e3e"}}>
             {name}
           </Text>
-          <Text style={{ paddingBottom: 5 }}>
+          <Text style={{ paddingBottom: 5 , color: "#3e3e3e"}}>
             {description}
           </Text>
         </View>
@@ -83,7 +84,8 @@ export default function TopicScreen({ navigation, route }) {
     return <Empty />
   }
 
-  const done = topic?.lessons?.filter(item => item.stars != null).length ?? 0
+  const done = topic?.lessons?.filter(item => item.stars != null && item.stars > 0).length ?? 0
+  console.log(done);
   return (
     <View>
       {/* Progress */}
@@ -91,15 +93,15 @@ export default function TopicScreen({ navigation, route }) {
         {topic && topic.count &&
           <View style={{ flexDirection: "row" }}>
             {Array.from({ length: topic.count }, (item, index) =>
-              <View key={`index_${index}`} style={{ flex: 1, height: 5, margin: 1, backgroundColor: (index + 1) <= done ? "green" : "lightgreen" }}></View>
+              <View key={`index_${index}`} style={{ flex: 1, height: 7, margin: 1, backgroundColor: (index < done) && done > 0 ? "green" : "grey" }}></View>
             )}
           </View>
         }
       </View>
       {/* Progress text */}
       <View>
-        <Text style={{ textAlign: "center", fontWeight: 'bold', fontSize: 14, paddingVertical: 5 }}>
-          {`Выполнено уроков: 0 из ${topic && topic.count}`}
+        <Text style={{ textAlign: "center", fontWeight: 'bold', fontSize: 14, paddingVertical: 5, color: "#3e3e3e" }}>
+          {`Выполнено уроков: ${done} из ${topic && topic.count}`}
         </Text>
       </View>
       {/* Finish topic now button */}

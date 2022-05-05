@@ -1,7 +1,7 @@
 import React from 'react';
-import { commonStyle } from '../styles/common.style'
-import { ActivityIndicator, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import LessonComponent from './lesson.component';
+import { commonStyle } from '../styles/common.style'
 
 export default SectionComponent = (props) => {
 

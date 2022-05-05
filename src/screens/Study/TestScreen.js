@@ -1,22 +1,20 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
-import { CheckBox, Button } from "react-native-elements";
 import { commonStyle } from "../../styles/common.style";
 import Loader from "../../components/loader.component";
 import Empty from "../../components/empty.component";
+import Tests from '../../components/tests.component';
 import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 export default function TestScreen({ navigation, route }) {
   const [questions, setQuestions] = useState(null)
   const [lessonId, setLessonId] = useState(null)
-  const [active, setActive] = useState(0)
-  const [data, setData] = useState(null)
+  const [answers, setAnswers] = useState([])
   const { loading, request } = useHttp();
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState(null)
   const auth = useContext(AuthContext)
-  const [form, setForm] = useState([])
   const { Links } = useLink()
 
   useEffect(() => {
@@ -36,21 +34,15 @@ export default function TestScreen({ navigation, route }) {
       );
       if (response && response.data) {
         setData(response.data)
-        let q = JSON.parse(response.data.questions)
-        setQuestions(q)
-        setCount(Object.values(q).length)
+        let quiz = Object.values(JSON.parse(response.data.questions));
+        quiz.map(element => { element.answers = Object.values(element.answers) })
+
+        setQuestions(quiz)
       }
     } catch (err) {
       console.log("Test screen reports:", err.message);
     }
   }, [request, Links])
-
-  const checkAnswer = (index, answer) => {
-    if (!form[index]) {
-      form[index] = answer
-      setForm({ ...form })
-    }
-  }
 
   useEffect(() => {
     dataLoading();
@@ -61,95 +53,18 @@ export default function TestScreen({ navigation, route }) {
     return <Loader />
   }
 
-  if (!data) {
+  if (!questions) {
     return <Empty />
   }
-  const Correct = { borderWidth: 1, borderColor: 'green' }
-  const Incorrect = { borderWidth: 1, borderColor: 'red' }
-
-  const checkSelection = (index, subindex, correct) => {
-    let style = { marginHorizontal: 0, marginLeft: 0, marginRight: 0 }
-    if (form[index] >= 0) {
-      if (correct || form[index] == subindex) {
-        style = { ...style, ...Correct }
-      }
-      if (!correct && form[index] == subindex) {
-        style = { ...style, ...Incorrect }
-      }
-    }
-    return style
-  }
-
   return (
     <View style={commonStyle.Container}>
       <View style={[commonStyle.CardContainer]}>
         <View style={commonStyle.Card}>
-          <View style={{ flexDirection: "row" }}>
-            {Array.from({ length: count }, (item, index) => (<View
-              key={`index_${index}`}
-              style={{
-                flex: 1,
-                height: 20,
-                margin: 1,
-                backgroundColor: !!(index <= active) ? "lightgreen" : "lightgrey"
-              }}>
-            </View>
-            )
-            )}
-          </View>
-          {/* Quiz */}
-          <View>
-            {questions && Object.values(questions).map((element, index) => {
-              if (index == active) {
-                return (
-                  <View key={`question_${index}`}>
-                    <Text style={{ marginVertical: 5, fontSize: 18 }}>
-                      {element.question}
-                    </Text>
-                    <View>
-                      {Object.values(element.answers).map((answer, sub_index) => {
-                        return (
-                          <View key={`answer_${index}_${sub_index}`}>
-                            <CheckBox
-                              title={answer.answer}
-                              disabled={form[index] >= 0}
-                              containerStyle={checkSelection(index, sub_index, answer.correct)}
-                              checked={sub_index == form[index]}
-                              onPress={() => { checkAnswer(index, sub_index) }}
-                            />
-                          </View>
-                        )
-                      })}
-                    </View>
-                  </View>
-                )
-              }
-            })}
-          </View>
-          {/* Next question button */}
-          <View>
-            {count >= 1 && active < count - 1 &&
-              <Button
-                title={'Next question'}
-                onPress={() => { if (active < count) setActive(active + 1) }}
-                disabled={!(active < count - 1)}
-              />
-            }
-            {active == count - 1 &&
-              <Button
-                title={'Finish test'}
-                onPress={() => { console.log("Test finished"); }}
-              />
-            }
-          </View>
-          {/* Console section */}
-          <View style={commonStyle.MT20}>
-            <Text>Check your answer in console: </Text>
-            {/* <WebView
-            style={{ height: 200, width: "100%", borderWidth: 1, borderColor: "black" }}
-            source={{ uri: 'https://reactnativeelements.com/docs/components/checkbox' }}
-          /> */}
-          </View>
+          <Tests
+            needFinish
+            questions={questions}
+            onChange={state => { setAnswers(state) }}
+            onSave={() => { console.log("Save", answers); }} />
         </View>
       </View>
     </View>

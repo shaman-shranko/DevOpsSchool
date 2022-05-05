@@ -38,7 +38,7 @@ export default Topic = ({ data, index, navigation }) => {
           <Text style={{ fontSize: 20, fontWeight: '500', color: "#3e3e3e" }}>
             {data.name}
           </Text>
-          <Text style={{ fontSize: 16 }}>
+          <Text style={{ fontSize: 16, color: "#3e3e3e" }}>
             Lessons: {data.lessons}
           </Text>
         </View>

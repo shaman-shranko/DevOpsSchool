@@ -29,7 +29,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
         />
       </View>
       {/* Heading */}
-      <Text style={{ textAlign: "center", fontSize: 28, paddingBottom: 10 }}>{data.heading}</Text>
+      <Text style={{ textAlign: "center", color: "#3e3e3e", fontSize: 28, paddingBottom: 10 }}>{data.heading}</Text>
 
       {/* 1st line */}
       <View style={{ flexDirection: "row" }}>
@@ -38,7 +38,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
             <Ionicons name={'stats-chart-sharp'} size={14} />
           </View>
           <View>
-            <Text>{`${data.lessons} lessons`}</Text>
+            <Text style={{ color: "#3e3e3e" }}>{`${data.lessons} lessons`}</Text>
           </View>
         </View>
         <View style={{ flex: 1, flexDirection: "row" }}>
@@ -46,7 +46,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
             <Ionicons name={'person-sharp'} size={14} />
           </View>
           <View>
-            <Text>{`${data.plans} plans`}</Text>
+            <Text style={{ color: "#3e3e3e" }}>{`${data.plans} plans`}</Text>
           </View>
         </View>
       </View>
@@ -58,7 +58,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
             <Ionicons name={'pencil-sharp'} size={14} />
           </View>
           <View>
-            <Text>{`${data.exercises} excercises`}</Text>
+            <Text style={{ color: "#3e3e3e" }}>{`${data.exercises} excercises`}</Text>
           </View>
         </View>
         <View style={{ flex: 1, flexDirection: "row" }}>
@@ -66,14 +66,14 @@ export default Item = ({ navigation, data, isCourse = false }) => {
             <Ionicons name={'time-sharp'} size={14} />
           </View>
           <View>
-            <Text>{`${data.hours} hours`}</Text>
+            <Text style={{ color: "#3e3e3e" }}>{`${data.hours} hours`}</Text>
           </View>
         </View>
       </View>
 
       {/* Text description */}
       <View>
-        <Text style={{ paddingVertical: 20, textAlign: "justify" }}>
+        <Text style={{ paddingVertical: 20, textAlign: "justify", color: "#3e3e3e" }}>
           {data.short_description}
         </Text>
       </View>
@@ -82,13 +82,13 @@ export default Item = ({ navigation, data, isCourse = false }) => {
           {/* Progress bar */}
           <View style={{ paddingVertical: 10, flexDirection: "row", width: "100%" }}>
             <Progress.Bar progress={progress / 100} width={285} height={18} borderWidth={0} color={'#6786DA'} unfilledColor={"lightgrey"} />
-            <Text style={{ width: 40, textAlign: "right" }}>{`${progress}%`}</Text>
+            <Text style={{ width: 40, textAlign: "right", color: "#3e3e3e" }}>{`${progress}%`}</Text>
           </View>
 
           {/* Details */}
           <View style={{ alignItems: "center", paddingVertical: 10 }}>
             <TouchableOpacity style={{ flexDirection: "row" }}>
-              <Text>Details</Text>
+              <Text style={{ color: "#3e3e3e" }}>Details</Text>
               <Ionicons name={'chevron-forward'} size={20} />
             </TouchableOpacity>
           </View>
@@ -108,21 +108,21 @@ export default Item = ({ navigation, data, isCourse = false }) => {
           {/* Details */}
           <View style={{ alignItems: "center", paddingVertical: 10 }}>
             <TouchableOpacity style={{ flexDirection: "row" }}>
-              <Text>Details</Text>
+              <Text style={{ color: "#3e3e3e" }}>Details</Text>
               <Ionicons name={'chevron-forward'} size={20} />
             </TouchableOpacity>
           </View>
 
           {/* Price */}
           <View style={{ alignItems: "center", paddingVertical: 10 }}>
-            <Text style={{ textAlign: "center", fontSize: 28, paddingBottom: 10 }}>
+            <Text style={{ textAlign: "center", fontSize: 28, paddingBottom: 10, color: "#3e3e3e" }}>
               {data.price}$
             </Text>
           </View>
 
           {data.isBought ?
             <View style={{ alignItems: "center", paddingVertical: 10 }}>
-              <Text>
+              <Text style={{ color: "#3e3e3e" }}>
                 Course is bought
               </Text>
             </View>

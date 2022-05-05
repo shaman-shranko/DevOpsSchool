@@ -48,6 +48,7 @@ export const commonStyle = StyleSheet.create({
   },
   TextCenter: {
     textAlign: 'center',
+    color:"#3e3e3e"
   },
   BuyButton: {
     backgroundColor: "green"
@@ -79,7 +80,8 @@ export const commonStyle = StyleSheet.create({
   },
   TitleText: {
     fontSize: 24,
-    textAlign: "center"
+    textAlign: "center",
+    color:"#3e3e3e"
   }
 
 })
