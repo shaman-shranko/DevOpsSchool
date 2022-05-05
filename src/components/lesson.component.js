@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { WebView } from 'react-native-webview';
 import base64 from 'react-native-base64';
 import { useLink } from "../hooks/links.hook";
+import Tests from './tests.component'
 import { View } from 'react-native'
 
 export default LessonComponent = (props) => {
     const [html, setHtml] = useState("")
     const [height, setHeight] = useState(50);
-    const { data, type, url } = props;
+    const { data, type, url, test } = props;
     const { Links } = useLink()
 
     const onWebViewMessage = (event) => {
@@ -21,6 +22,7 @@ export default LessonComponent = (props) => {
             result = '<!DOCTYPE html>' +
                 '<html>' +
                 '<head>' +
+                '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">' +
                 '<meta name="viewport" content="width=device-width, initial-scale=1">' +
                 styles +
                 '</head>' +
@@ -32,13 +34,13 @@ export default LessonComponent = (props) => {
             result = data
         }
         setHtml(result)
-    }, [data])
+    })
 
     useEffect(() => {
         setHeight(height)
     }, [height])
 
-    if (type != 'video' && type != 'test') {
+    if (type != 'video' && type != 'tests') {
         return (
             <View style={{ height: height, width: "100%" }}>
                 <WebView
@@ -63,9 +65,11 @@ export default LessonComponent = (props) => {
             />
         )
     }
-    if (type == "test") {
-        return null
+
+    if (type == "tests") {
+        return <Tests questions={test.questions} />
     }
+
     return null
 }
 const styles = `<style>/*GENERAL*/

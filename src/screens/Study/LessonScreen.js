@@ -9,7 +9,7 @@ import { Button, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default function LessonScreen({ navigation, route }) {
-  const { error, errors, loading, request } = useHttp();
+  const { loading, request } = useHttp();
   const [contentLength, setContentLength] = useState(1)
   const [lessonId, setLessonId] = useState(null)
   const [active, setActive] = useState(0)
@@ -42,6 +42,7 @@ export default function LessonScreen({ navigation, route }) {
 
   useEffect(() => {
     dataLoading();
+    return () => { }
   }, [dataLoading])
 
   if (loading) {
@@ -53,13 +54,13 @@ export default function LessonScreen({ navigation, route }) {
       <View style={[commonStyle.CardContainer, commonStyle.FullHight]}>
         <View style={commonStyle.Card}>
           {contentLength > 1 &&
-            <View style={{ height: "5%", width: "100%", borderWidth: 1 }}>
+            <View style={{ height: "2%", width: "100%", flexDirection: 'row' }}>
               {Array.from({ length: contentLength }, (_, index) => (
                 <View
                   key={`index_${index}`}
                   style={{
                     flex: 1,
-                    height: 20,
+                    height: "100%",
                     margin: 1,
                     backgroundColor: !!(index <= active) ? "lightgreen" : "lightgrey"
                   }}>

@@ -74,7 +74,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
       {/* Text description */}
       <View>
         <Text style={{ paddingVertical: 20, textAlign: "justify" }}>
-          {data.description}
+          {data.short_description}
         </Text>
       </View>
       {!isCourse ?

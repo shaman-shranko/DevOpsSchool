@@ -35,6 +35,7 @@ export default function TopicScreen({ navigation, route }) {
 
   useEffect(() => {
     dataLoading();
+    return () => { }
   }, [dataLoading])
 
   const Item = ({ name, description, index, stars, id }) => (

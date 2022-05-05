@@ -10,7 +10,7 @@ import { useHttp } from "../../hooks/http.hook";
 import { View } from 'react-native';
 
 export default function StudyScreen({ navigation }) {
-  const { loading, error, errors, request } = useHttp();
+  const { loading, request } = useHttp();
   const [study, setStudy] = useState(null)
   const auth = useContext(AuthContext)
   const { Links } = useLink()
@@ -26,7 +26,8 @@ export default function StudyScreen({ navigation }) {
         }
       );
       if (response && response.data) {
-        setStudy(response.data)
+        let courses = response.data.filter(element => element.isBought == 1)
+        setStudy(courses)
       }
     } catch (err) {
 
@@ -39,6 +40,7 @@ export default function StudyScreen({ navigation }) {
 
   useEffect(() => {
     dataLoading();
+    return () => { }
   }, [dataLoading])
 
   if (loading) {

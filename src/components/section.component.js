@@ -13,6 +13,7 @@ export default SectionComponent = (props) => {
         {data?.map((element, number) => (
           <LessonComponent
             data={element.html}
+            test={element.type == 'tests' ? element : null}
             url={element.type == 'video' ? element.name : null}
             type={element.type}
             key={`lc_${index}_${number}`}

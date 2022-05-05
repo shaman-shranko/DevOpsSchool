@@ -54,6 +54,7 @@ export default function TestScreen({ navigation, route }) {
 
   useEffect(() => {
     dataLoading();
+    return () => { }
   }, [dataLoading])
 
   if (loading) {
@@ -96,7 +97,7 @@ export default function TestScreen({ navigation, route }) {
             )
             )}
           </View>
-          {/*  */}
+          {/* Quiz */}
           <View>
             {questions && Object.values(questions).map((element, index) => {
               if (index == active) {

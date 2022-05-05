@@ -35,6 +35,7 @@ export default function LoginScreen({ navigation }) {
 
   useEffect(() => {
     setUrl(URL)
+    return () => { }
   }, [URL])
 
   const saveLink = useCallback(async () => {

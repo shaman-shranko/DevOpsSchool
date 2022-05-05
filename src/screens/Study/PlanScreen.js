@@ -35,6 +35,7 @@ export default function PlanScreen({ navigation, route }) {
 
   useEffect(() => {
     dataLoading();
+    return () => { }
   }, [dataLoading])
 
   if (loading) {

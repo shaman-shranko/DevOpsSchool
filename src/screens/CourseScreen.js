@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
+import { AuthContext } from "../context/auth.context";
 import { commonStyle } from "../styles/common.style";
 import Loader from "../components/loader.component";
+import Empty from "../components/empty.component";
 import Carousel from 'react-native-snap-carousel';
 import Item from "../components/item.component";
 import { useLink } from "../hooks/links.hook";
@@ -8,14 +10,24 @@ import { useHttp } from "../hooks/http.hook";
 import { View } from 'react-native'
 
 export default function CourseScreen() {
-  const { loading, request } = useHttp();
   const [course, setCourse] = useState(null)
+  const { loading, request } = useHttp()
+  const auth = useContext(AuthContext)
   const { Links } = useLink()
 
   const dataLoading = useCallback(async () => {
     try {
-      let response = await request(Links.CoursesLink);
-      setCourse(response.data)
+      let response = await request(
+        Links.CoursesLink,
+        "POST",
+        {
+          token: auth.token,
+          user_id: auth.userId
+        }
+      );
+      if (response && response.data) {
+        setCourse(response.data)
+      }
     } catch (err) {
       console.log("Course screen reports:", err.message);
     }
@@ -23,11 +35,16 @@ export default function CourseScreen() {
 
   useEffect(() => {
     dataLoading();
+    return () => { }
   }, [dataLoading])
 
   if (loading) {
     return <Loader />
   }
+  if (!course) {
+    return <Empty />
+  }
+
 
   const _renderItem = ({ item, index }) => {
     return (
