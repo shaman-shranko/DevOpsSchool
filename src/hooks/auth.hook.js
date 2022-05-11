@@ -7,7 +7,7 @@ export const useAuth = () => {
   const [ready, setReady] = useState(false)
   const [userId, setUserId] = useState(null)
   const [userData, setUserData] = useState(null)
-
+  
   const login = useCallback(async (data) => {
     setToken(data.token)
     setUserId(data.id)
@@ -38,5 +38,5 @@ export const useAuth = () => {
     setReady(true)
   }, [login])
 
-  return { login, logout, token, userId, ready, userData }
+  return { login, logout, token, userId, ready, userData}
 }
