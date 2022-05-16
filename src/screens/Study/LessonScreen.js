@@ -34,6 +34,7 @@ export default function LessonScreen({ navigation, route }) {
       if (response && response.data) {
         setData(response.data)
         setContentLength(response.data.body.length)
+        console.log("Data", response.data);
       }
     } catch (err) {
       console.log("Lessons screen reports:", err.message);
@@ -87,7 +88,7 @@ export default function LessonScreen({ navigation, route }) {
               {data && data.test_id &&
                 <Button
                   title="Complete test"
-                  onPress={() => { navigation.navigate("Test", { lessonId: data.test_id }) }}
+                  onPress={() => { navigation.navigate("Test", { lessonId: data.test_id, plan_id: data?.plan_id ?? 0 }) }}
                 />
               }
             </View>

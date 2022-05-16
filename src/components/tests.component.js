@@ -14,20 +14,20 @@ export default Tests = (props) => {
 
   const checkSelection = (index, subindex, correct) => {
     let style = { marginHorizontal: 0, marginLeft: 0, marginRight: 0 }
-    if (form[index] >= 0) {
-      if (correct || form[index] == subindex) {
+    if (form[index]?.answer >= 0) {
+      if (correct || form[index]?.answer == subindex) {
         style = { ...style, ...Correct }
       }
-      if (!correct && form[index] == subindex) {
+      if (!correct && form[index]?.answer == subindex) {
         style = { ...style, ...Incorrect }
       }
     }
     return style
   }
 
-  const checkAnswer = (index, answer) => {
+  const checkAnswer = (index, answer, correct) => {
     if (!form[index]) {
-      form[index] = answer
+      form[index] = { answer, correct }
       setForm({ ...form })
       if (onChange) {
         onChange(form)
@@ -66,11 +66,11 @@ export default Tests = (props) => {
                       <View key={`answer_${index}_${sub_index}`}>
                         <CheckBox
                           title={answer.answer}
-                          textStyle={{color: "#3e3e3e"}}
-                          disabled={form[index] >= 0}
+                          textStyle={{ color: "#3e3e3e" }}
+                          disabled={form[index]?.answer >= 0}
                           containerStyle={checkSelection(index, sub_index, answer.correct)}
-                          checked={sub_index == form[index]}
-                          onPress={() => { checkAnswer(index, sub_index) }}
+                          checked={sub_index == form[index]?.answer}
+                          onPress={() => { checkAnswer(index, sub_index, answer.correct) }}
                         />
                       </View>
                     ))}

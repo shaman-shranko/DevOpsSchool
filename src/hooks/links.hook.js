@@ -29,8 +29,12 @@ export const useLink = () => {
       StudyLink: url + `api/get-courses`,
       PlanLink: url + `api/get-plan-list/`,
       TopicLink: url + `api/get-plan/`,
+
       LessonLink: url + `api/get-lesson/`,
+      LessonFinishLink: url + `/api/set-lesson-complete `,
+
       TestLink: url + `api/get-test/`,
+      TestRateLink: url + `api/setTestRate`,
 
       CoursesLink: url + `api/get-courses`,
 

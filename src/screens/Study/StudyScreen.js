@@ -56,7 +56,7 @@ export default function StudyScreen({ navigation }) {
       <Item key={`study_${index}`} navigation={goToScreen} data={item} />
     );
   }
-
+  console.log("Token", auth.token);
   return (
     <View style={commonStyle.Container}>
       <View style={[commonStyle.CardContainer, commonStyle.PH0]}>

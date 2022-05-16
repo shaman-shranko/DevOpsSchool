@@ -5,7 +5,7 @@ export const useHttp = () => {
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
+  const request = useCallback(async (url, method = 'GET', body = null, headers = {}, withData = true) => {
     setLoading(true);
     clearError()
 
@@ -20,6 +20,9 @@ export const useHttp = () => {
         throw new Error(data.message || 'Something goes wrong')
       }
 
+      if (!withData) {
+        return;
+      }
       const data = await response.json()
 
       if (data.status == 0) {

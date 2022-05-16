@@ -26,8 +26,8 @@ export default function TopicScreen({ navigation, route }) {
         }
       );
       if (response && response.data) {
-        console.log("Topic data", response.data);
         setTopic(response.data)
+        navigation.setOptions({ title: response.data.name })
       }
     } catch (err) {
       console.log("Topic screen reports:", err.message);
@@ -50,10 +50,10 @@ export default function TopicScreen({ navigation, route }) {
         </View>
         {/* Texts */}
         <View style={{ flex: 7 }}>
-          <Text style={{ fontSize: 18, paddingVertical: 10 , color: "#3e3e3e"}}>
+          <Text style={{ fontSize: 18, paddingVertical: 10, color: "#3e3e3e" }}>
             {name}
           </Text>
-          <Text style={{ paddingBottom: 5 , color: "#3e3e3e"}}>
+          <Text style={{ paddingBottom: 5, color: "#3e3e3e" }}>
             {description}
           </Text>
         </View>
@@ -85,7 +85,6 @@ export default function TopicScreen({ navigation, route }) {
   }
 
   const done = topic?.lessons?.filter(item => item.stars != null && item.stars > 0).length ?? 0
-  console.log(done);
   return (
     <View>
       {/* Progress */}
@@ -93,7 +92,7 @@ export default function TopicScreen({ navigation, route }) {
         {topic && topic.count &&
           <View style={{ flexDirection: "row" }}>
             {Array.from({ length: topic.count }, (item, index) =>
-              <View key={`index_${index}`} style={{ flex: 1, height: 7, margin: 1, backgroundColor: (index < done) && done > 0 ? "green" : "grey" }}></View>
+              <View key={`index_${index}`} style={{ flex: 1, height: 7, margin: 1, backgroundColor: (index < done) && done > 0 ? "green" : "lightgrey" }}></View>
             )}
           </View>
         }
