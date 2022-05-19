@@ -5,7 +5,7 @@ import * as Progress from 'react-native-progress';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useLink } from "../hooks/links.hook";
 
-export default Item = ({ navigation, data, isCourse = false }) => {
+export default Item = ({ navigation, data, isCourse = false, buyCourse = () => { } }) => {
   let progress = data.progress ?? 0
   const { Links } = useLink()
   return (
@@ -132,6 +132,7 @@ export default Item = ({ navigation, data, isCourse = false }) => {
               <View style={{ paddingVertical: 10 }}>
                 <Button
                   title="Buy course"
+                  onPress={buyCourse}
                   color="#6786DA"
                 />
               </View>

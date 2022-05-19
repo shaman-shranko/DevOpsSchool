@@ -22,7 +22,8 @@ export default function CourseScreen() {
         "POST",
         {
           token: auth.token,
-          user_id: auth.userId
+          user_id: auth.userId,
+          device_id: auth.deviceId,
         }
       );
       if (response && response.data) {
@@ -32,6 +33,23 @@ export default function CourseScreen() {
       console.log("Course screen reports:", err.message);
     }
   }, [request, Links])
+
+  const buyCourse = async (course_id) => {
+    try {
+      await request(
+        Links.CoursesBuyLink,
+        "POST",
+        {
+          token: auth.token,
+          user_id: auth.userId,
+          device_id: auth.deviceId,
+          course_id: course_id
+        }
+      )
+    } catch (error) {
+      console.log("Buy course error", error.message);
+    }
+  }
 
   useEffect(() => {
     dataLoading();
@@ -48,7 +66,7 @@ export default function CourseScreen() {
 
   const _renderItem = ({ item, index }) => {
     return (
-      <Item key={`course_${index}`} data={item} isCourse />
+      <Item key={`course_${index}`} buyCourse={() => { buyCourse(item.id) }} data={item} isCourse />
     );
   }
 

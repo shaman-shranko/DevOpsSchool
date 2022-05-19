@@ -2,6 +2,7 @@ import React from 'react';
 import StudyNavigation from './study.navigation';
 import CourseScreen from '../screens/CourseScreen';
 import CabinetScreen from '../screens/CabinetScreen';
+import ScheduleScreen from '../screens/ScheduleScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -26,6 +27,10 @@ export default CommonNavigation = () => (
           iconName = focused
             ? 'person-circle'
             : 'person-circle-outline';
+        } else if (route.name === 'Schedule') {
+          iconName = focused
+            ? 'calendar'
+            : 'calendar-outline';
         }
         return <Ionicons name={iconName} size={size} color={color} />;
       },
@@ -47,6 +52,7 @@ export default CommonNavigation = () => (
     })}>
     <Tab.Screen options={{ headerShown: false }} name="Study" component={StudyNavigation} />
     <Tab.Screen name="Course" component={CourseScreen} />
+    <Tab.Screen name="Schedule" component={ScheduleScreen} />
     <Tab.Screen name="Cabinet" component={CabinetScreen} />
   </Tab.Navigator>
 )

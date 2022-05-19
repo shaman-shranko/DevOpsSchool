@@ -25,7 +25,8 @@ export default function LoginScreen({ navigation }) {
       let response = await request(Links.LoginLink, "POST", form)
       let userData = {
         ...response.user,
-        token: response.token
+        token: response.token,
+        device_id: response?.data?.device_id
       }
       auth.login(userData);
     } catch (error) {

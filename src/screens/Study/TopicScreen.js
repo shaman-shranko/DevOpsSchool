@@ -22,7 +22,8 @@ export default function TopicScreen({ navigation, route }) {
         "POST",
         {
           token: auth.token,
-          user_id: auth.userId
+          user_id: auth.userId,
+          device_id: auth.deviceId,
         }
       );
       if (response && response.data) {

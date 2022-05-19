@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import RouterNavigation from './navigation/router.navigation';
@@ -15,8 +7,9 @@ import NetInfo from "@react-native-community/netinfo";
 import { useAuth } from './hooks/auth.hook';
 
 export default function App() {
-  const { userId, token, userData, login, logout, ready } = useAuth()
+  const { userId, userData, deviceId, token, login, logout, ready } = useAuth()
   const [connected, setConnected] = useState(true)
+  // const [userData, setUserData] = useState(null)
   const isAuthenticated = !!token
 
   useEffect(() => {
@@ -33,9 +26,21 @@ export default function App() {
       setConnected(state.isConnected);
     });
   }
-
+  const context = {
+    userId,
+    token,
+    userData,
+    deviceId,
+    isAuthenticated,
+    login,
+    logout,
+    ready,
+    connected,
+    setConnected,
+    refreshConnection
+  }
   return (
-    <AuthContext.Provider value={{ userId, token, userData, isAuthenticated, login, logout, ready, connected, setConnected, refreshConnection }}>
+    <AuthContext.Provider value={context}>
       <NavigationContainer>
         <RouterNavigation />
       </NavigationContainer>

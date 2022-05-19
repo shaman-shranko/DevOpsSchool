@@ -4,13 +4,15 @@ const storageName = 'userData'
 
 export const useAuth = () => {
   const [token, setToken] = useState(null)
+  const [deviceId, setDeviceId] = useState(null)
   const [ready, setReady] = useState(false)
   const [userId, setUserId] = useState(null)
   const [userData, setUserData] = useState(null)
-  
+
   const login = useCallback(async (data) => {
     setToken(data.token)
     setUserId(data.id)
+    setDeviceId(data.device_id)
     setUserData(data)
 
     await AsyncStorage.setItem(storageName, JSON.stringify({
@@ -38,5 +40,5 @@ export const useAuth = () => {
     setReady(true)
   }, [login])
 
-  return { login, logout, token, userId, ready, userData}
+  return { login, logout, token, userId, ready, deviceId, userData }
 }

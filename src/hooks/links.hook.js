@@ -33,14 +33,22 @@ export const useLink = () => {
       LessonLink: url + `api/get-lesson/`,
       LessonFinishLink: url + `/api/set-lesson-complete `,
 
+      // ActiveDaysLink: url + `api/get-school-days `,
+      SetActiveDaysLink: url + `api/set-active-days`,
+
       TestLink: url + `api/get-test/`,
       TestRateLink: url + `api/setTestRate`,
 
       CoursesLink: url + `api/get-courses`,
+      CoursesBuyLink: url + `api/buy-course`,
+
+      ScheduleLink: url + `api/get-schedule`,
+      SheduleLessonLink: url + `api/set-course-schedule`,
+      ScheduleRefreshLink: url + `api/generate-schedule`,
 
       LoginLink: url + `api/login`,
       SignUpLink: url + `api/registration`,
-      ShellLink: url + `/shell_commander`
+      ShellLink: url + `/shell_commander`,
     }
   }
   return { Links: URLS, URL, saveUrl }

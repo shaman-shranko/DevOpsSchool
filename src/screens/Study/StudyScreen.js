@@ -22,7 +22,8 @@ export default function StudyScreen({ navigation }) {
         "POST",
         {
           token: auth.token,
-          user_id: auth.userId
+          user_id: auth.userId,
+          device_id: auth.deviceId,
         }
       );
       if (response && response.data) {
@@ -47,8 +48,8 @@ export default function StudyScreen({ navigation }) {
     return <Loader />
   }
 
-  if (!study) {
-    return <Empty />
+  if (!study || study.length == 0) {
+    return <Empty message="No courses is bought" />
   }
 
   const _renderItem = ({ item, index }) => {
@@ -56,7 +57,7 @@ export default function StudyScreen({ navigation }) {
       <Item key={`study_${index}`} navigation={goToScreen} data={item} />
     );
   }
-  console.log("Token", auth.token);
+
   return (
     <View style={commonStyle.Container}>
       <View style={[commonStyle.CardContainer, commonStyle.PH0]}>

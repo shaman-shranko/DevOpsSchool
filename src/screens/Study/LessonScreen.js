@@ -6,7 +6,6 @@ import { commonStyle } from "../../styles/common.style";
 import Loader from "../../components/loader.component";
 import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
-import { WebView } from 'react-native-webview';
 
 export default function LessonScreen({ navigation, route }) {
   const { loading, request } = useHttp();
@@ -28,14 +27,24 @@ export default function LessonScreen({ navigation, route }) {
         "POST",
         {
           token: auth.token,
-          user_id: auth.userId
+          user_id: auth.userId,
+          device_id: auth.deviceId,
         }
       );
       if (response && response.data) {
         setData(response.data)
         setContentLength(response.data.body.length)
-        console.log("Data", response.data);
+        navigation.setOptions({ title: response.data.name })
+        await request(Links.ScheduleLessonLink, "POST",
+        {
+          token: auth.token,
+          user_id: auth.userId,
+          device_id: auth.deviceId,
+          lesson_id: lessonId,
+          course_id: response?.data?.course_id
+        })
       }
+
     } catch (err) {
       console.log("Lessons screen reports:", err.message);
     }
@@ -75,13 +84,6 @@ export default function LessonScreen({ navigation, route }) {
               {data?.body?.map((element, index) => (index == active ? <SectionComponent key={`section_component_${index}`} index={index} data={element} /> : null))}
             </View>
           </View>
-          {/* <View style={{ height: 300, width: "100%", borderWidth: 1 }}>
-            <WebView
-              originWhitelist={['*']}
-              source={{ uri: Links.ShellLink }}
-            // javaScriptEnabled={true}
-            />
-          </View> */}
           {/* Button */}
           {((contentLength > 1 && active == contentLength - 1) || contentLength == 1) ?
             <View style={commonStyle.PV10}>

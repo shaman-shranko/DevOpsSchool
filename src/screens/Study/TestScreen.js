@@ -28,7 +28,8 @@ export default function TestScreen({ navigation, route }) {
         "POST",
         {
           token: auth.token,
-          user_id: auth.userId
+          user_id: auth.userId,
+          device_id: auth.deviceId,
         }
       );
       if (response && response.data) {
@@ -53,6 +54,7 @@ export default function TestScreen({ navigation, route }) {
           token: auth.token,
           test_id: data?.id,
           user_id: auth.userId,
+          device_id: auth.deviceId,
           correct_answers: Object.values(answers).filter(x => !!x.correct).length,
         },
         {},
@@ -71,7 +73,8 @@ export default function TestScreen({ navigation, route }) {
         token: auth.token,
         test_id: data?.id,
         user_id: auth.userId,
-        course_id: data?.course_id
+        course_id: data?.course_id,
+        device_id: auth.deviceId
       },
       {},
       false
