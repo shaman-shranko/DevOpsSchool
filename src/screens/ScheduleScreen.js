@@ -6,7 +6,7 @@ import Empty from "../components/empty.component";
 import { useLink } from "../hooks/links.hook";
 import { useHttp } from "../hooks/http.hook";
 import { Button } from "react-native-elements";
-import { Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -27,7 +27,6 @@ export default function ScheduleScreen({ navigation }) {
           device_id: auth.deviceId
         }
       );
-      console.log("Token", auth.token);
       if (response && response.data) {
         setSchedule(response.data)
       }
@@ -65,53 +64,64 @@ export default function ScheduleScreen({ navigation }) {
   }
 
   if (!schedule) {
-    return <Empty />
+    return <Empty >
+      <Button
+        title={"Refresh"}
+        onPress={Refresh}
+        buttonStyle={{ marginVertical: 10 }}
+      />
+    </Empty>
   }
 
   const RenderSchedule = ({ schedule }) => {
-    return (<View style={{ flexDirection: "row" }}>
-      {schedule.map((element, index) => {
-        let color, icon, pressable = true;
-        console.log("Log", element.id)
-        switch (element.status) {
-          case "complete":
-            color = "lightgreen"
-            icon = "checkmark"
-            break;
-          case "inProgress":
-            color = "yellow"
-            icon = "code-slash"
-            break;
-          case "overdue":
-            color = "coral"
-            icon = "alert"
-            break;
-          case "unavailable":
-            color = "lightgrey"
-            icon = "lock-closed"
-            pressable = false
-            break;
-        }
-        const style = {
-          width: 35,
-          height: 35,
-          backgroundColor: color,
-          marginRight: 7,
-          borderRadius: 5,
-          alignItems: "center",
-          justifyContent: "center"
-        }
-        return (
-          <TouchableOpacity
-            style={style}
-            onPress={() => { if (pressable) { navigation.navigate("Lesson", { lesson_id: element.id }) } }}
-          >
-            <Ionicons name={icon} size={20} />
-          </TouchableOpacity>
-        )
-      }
-      )}
-    </View>)
+    return (<View>
+      <ScrollView horizontal>
+        <View style={{ flexDirection: "row" }}>
+          {schedule.map((element, index) => {
+            let color, icon, pressable = true;
+            switch (element.status) {
+              case "complete":
+                color = "lightgreen"
+                icon = "checkmark"
+                break;
+              case "inProgress":
+                color = "yellow"
+                icon = "code-slash"
+                break;
+              case "overdue":
+                color = "coral"
+                icon = "alert"
+                break;
+              case "unavailable":
+                color = "lightgrey"
+                icon = "lock-closed"
+                pressable = false
+                break;
+            }
+            const style = {
+              width: 35,
+              height: 35,
+              backgroundColor: color,
+              marginRight: 7,
+              borderRadius: 5,
+              alignItems: "center",
+              justifyContent: "center"
+            }
+            return (
+              <TouchableOpacity
+                style={style}
+                key={`lesson_${index}`}
+                onPress={() => { if (pressable) { navigation.navigate("Lesson", { lesson_id: element.id }) } }}
+              >
+                <Ionicons name={icon} size={20} />
+              </TouchableOpacity>
+            )
+          }
+          )}
+        </View>
+      </ScrollView>
+    </View>
+    )
   }
 
   return (
@@ -119,7 +129,7 @@ export default function ScheduleScreen({ navigation }) {
       <View style={[commonStyle.CardContainer, commonStyle.FullHight]}>
         <View style={commonStyle.Card}>
           {schedule?.map((element, index) => (
-            <View>
+            <View key={`course_${index}`}>
               <Text style={{ padding: 5, marginVertical: 5, borderRadius: 5, color: "white", fontSize: 20, backgroundColor: "#6786DA" }}>{element.course_name}</Text>
               <RenderSchedule schedule={element.schedule} />
             </View>
@@ -128,6 +138,7 @@ export default function ScheduleScreen({ navigation }) {
             <Button
               title={"Refresh"}
               onPress={Refresh}
+              buttonStyle={{ marginVertical: 10 }}
             />
           </View>
         </View>

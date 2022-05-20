@@ -2,8 +2,8 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import StudyScreen from '../screens/Study/StudyScreen';
-import PlanScreen from '../screens/Study/PlanScreen';
-import TopicScreen from '../screens/Study/TopicScreen';
+import PlansScreen from '../screens/Study/PlansScreen';
+import PlanScreen from '../screens/Study/PlansScreen';
 import LessonScreen from '../screens/Study/LessonScreen';
 import TestScreen from '../screens/Study/TestScreen';
 
@@ -29,13 +29,13 @@ export default function StudyStackScreen() {
         options={{ title: "Study" }}
       />
       <StudyStack.Screen
-        name="Plan"
-        component={PlanScreen}
+        name="Plans"
+        component={PlansScreen}
         options={({ route }) => ({ title: (route && route.params && route.params.name) ?? "Plan" })}
       />
       <StudyStack.Screen
-        name="Topic"
-        component={TopicScreen}
+        name="Plan"
+        component={PlanScreen}
         options={({ route }) => ({ title: (route && route.params && route.params.name) ?? "Topic" })}
       />
       <StudyStack.Screen

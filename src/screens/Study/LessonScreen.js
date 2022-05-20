@@ -8,10 +8,10 @@ import { useLink } from "../../hooks/links.hook";
 import { useHttp } from "../../hooks/http.hook";
 
 export default function LessonScreen({ navigation, route }) {
-  const { loading, request } = useHttp();
   const [contentLength, setContentLength] = useState(1)
   const [lessonId, setLessonId] = useState(null)
   const [active, setActive] = useState(0)
+  const { loading, request } = useHttp()
   const [data, setData] = useState(null)
   const auth = useContext(AuthContext)
   const { Links } = useLink()
@@ -35,14 +35,7 @@ export default function LessonScreen({ navigation, route }) {
         setData(response.data)
         setContentLength(response.data.body.length)
         navigation.setOptions({ title: response.data.name })
-        await request(Links.ScheduleLessonLink, "POST",
-        {
-          token: auth.token,
-          user_id: auth.userId,
-          device_id: auth.deviceId,
-          lesson_id: lessonId,
-          course_id: response?.data?.course_id
-        })
+        scheduleLesson(response?.data?.course_id)
       }
 
     } catch (err) {
@@ -50,9 +43,32 @@ export default function LessonScreen({ navigation, route }) {
     }
   }, [request, Links])
 
+  const scheduleLesson = useCallback(async (course_id) => {
+    try {
+      console.log("Response", {
+        token: auth.token,
+        user_id: auth.userId,
+        device_id: auth.deviceId,
+        lesson_id: lessonId,
+        course_id: course_id
+      });
+      let response = await request(Links.ScheduleLessonLink, "POST",
+        {
+          token: auth.token,
+          user_id: auth.userId,
+          device_id: auth.deviceId,
+          lesson_id: lessonId,
+          course_id: course_id
+        })
+      
+    } catch (error) {
+      console.log("Schedule lesson error", error.message);
+    }
+  }, [request, Links, lessonId])
+
+
   useEffect(() => {
     dataLoading();
-    return () => { }
   }, [dataLoading])
 
   if (loading) {

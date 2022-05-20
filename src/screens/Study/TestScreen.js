@@ -81,6 +81,16 @@ export default function TestScreen({ navigation, route }) {
     )
   }, [request, data])
 
+  const testDone = async () => {
+    await rateLesson();
+    if (data?.rate == 1) {
+      await finishTest()
+    }
+    navigation.popToTop();
+    navigation.navigate("Plan", { plan_id: route?.params?.plan_id })
+
+  }
+
   useEffect(() => {
     dataLoading();
     return () => { }
@@ -102,13 +112,7 @@ export default function TestScreen({ navigation, route }) {
             needFinish
             questions={questions}
             onChange={state => { setAnswers(state) }}
-            onSave={() => {
-              rateLesson();
-              if (data?.rate == 1) {
-                finishTest()
-              }
-              navigation.navigate("Topic", { plan_id: route?.params?.plan_id })
-            }} />
+            onSave={testDone} />
         </View>
       </View>
     </View>

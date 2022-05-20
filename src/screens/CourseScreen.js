@@ -9,7 +9,7 @@ import { useLink } from "../hooks/links.hook";
 import { useHttp } from "../hooks/http.hook";
 import { View } from 'react-native'
 
-export default function CourseScreen() {
+export default function CourseScreen({navigation}) {
   const [course, setCourse] = useState(null)
   const { loading, request } = useHttp()
   const auth = useContext(AuthContext)
@@ -46,6 +46,8 @@ export default function CourseScreen() {
           course_id: course_id
         }
       )
+      dataLoading()
+      // navigation.navigate()
     } catch (error) {
       console.log("Buy course error", error.message);
     }

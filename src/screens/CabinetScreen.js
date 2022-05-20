@@ -101,6 +101,11 @@ export default function CabinetScreen({ navigation }) {
                 title={'Buy course'}
                 onPress={() => { navigation.navigate("Course") }}
               />
+              <Button
+                title={'Logout'}
+                buttonStyle={commonStyle.W150}
+                onPress={() => { auth.logout() }}
+              />
             </View>
             {/* Schedule */}
             <View>
@@ -138,14 +143,6 @@ export default function CabinetScreen({ navigation }) {
                   onPress={saveSchedule}
                 />
               </View>
-            </View>
-            {/* Logout button */}
-            <View style={[commonStyle.PV20, commonStyle.Centered]}>
-              <Button
-                title={'Logout'}
-                buttonStyle={commonStyle.W150}
-                onPress={() => { auth.logout() }}
-              />
             </View>
           </ScrollView>
         </View>

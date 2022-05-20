@@ -69,7 +69,7 @@ export const commonStyle = StyleSheet.create({
     paddingHorizontal: 0,
   },
   W150: {
-    width: 150
+    // width: 120
   },
   FullHight: {
     height: "100%"

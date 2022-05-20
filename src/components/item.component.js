@@ -96,7 +96,7 @@ export default Item = ({ navigation, data, isCourse = false, buyCourse = () => {
           {/* Button */}
           <View style={{ paddingVertical: 10 }}>
             <Button
-              onPress={() => { navigation('Plan', data.heading, data.id) }}
+              onPress={() => { navigation('Plans', data.heading, data.id) }}
               title="Learn More"
               color="#6786DA"
             />

@@ -49,7 +49,9 @@ export default CommonNavigation = () => (
         fontWeight: 'bold',
       },
 
-    })}>
+    })}
+    initialRouteName="Study"
+    >
     <Tab.Screen options={{ headerShown: false }} name="Study" component={StudyNavigation} />
     <Tab.Screen name="Course" component={CourseScreen} />
     <Tab.Screen name="Schedule" component={ScheduleScreen} />
